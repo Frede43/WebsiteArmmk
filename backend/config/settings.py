@@ -134,3 +134,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ALLOW_ALL_ORIGINS = True # Permettre au app Next.js de se connecter en dev
+
+# Session Configuration (1 hour timeout for admin)
+SESSION_COOKIE_AGE = 3600  # 1 hour in seconds
+SESSION_SAVE_EVERY_REQUEST = True  # Reset timeout on every request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire when browser is closed
