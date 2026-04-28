@@ -128,7 +128,7 @@ export default function Navbar({ lang, dict }: { lang: string; dict: any }) {
             >
               <MapPin size={13} className="group-hover:animate-bounce" />
               <span className="hidden xs:inline">{dict.visit_memorial}</span>
-              <span className="xs:hidden">Mémorial</span>
+              <span className="xs:hidden">{dict.memorial}</span>
             </Link>
             
             {/* Language Switcher */}

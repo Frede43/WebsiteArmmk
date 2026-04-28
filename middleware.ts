@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/request'
+import type { NextRequest } from 'next/server'
 
 import { match as matchLocale } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
@@ -9,7 +9,7 @@ const defaultLocale = 'fr'
 
 function getLocale(request: NextRequest): string | undefined {
   const negotiatorHeaders: Record<string, string> = {}
-  request.headers.forEach((value, key) => (negotiatorHeaders[key] = value))
+  request.headers.forEach((value: string, key: string) => (negotiatorHeaders[key] = value))
 
   // @ts-ignore locales are readonly
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages()
