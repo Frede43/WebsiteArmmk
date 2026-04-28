@@ -2,7 +2,13 @@ from django.db import models
 
 class HeroSlide(models.Model):
     title = models.CharField(max_length=255)
+    title_en = models.CharField(max_length=255, blank=True, null=True)
+    title_es = models.CharField(max_length=255, blank=True, null=True)
+    
     subtitle = models.TextField()
+    subtitle_en = models.TextField(blank=True, null=True)
+    subtitle_es = models.TextField(blank=True, null=True)
+    
     image = models.ImageField(upload_to='hero_slides/', blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
 
@@ -16,14 +22,34 @@ class HeroSlide(models.Model):
 
 class Activity(models.Model):
     slug = models.SlugField(unique=True, help_text="URL unique de l'activité")
+    
     title = models.CharField(max_length=200)
+    title_en = models.CharField(max_length=200, blank=True, null=True)
+    title_es = models.CharField(max_length=200, blank=True, null=True)
+    
     short_desc = models.CharField(max_length=255, help_text="Description courte")
+    short_desc_en = models.CharField(max_length=255, blank=True, null=True)
+    short_desc_es = models.CharField(max_length=255, blank=True, null=True)
+    
     description = models.TextField()
+    description_en = models.TextField(blank=True, null=True)
+    description_es = models.TextField(blank=True, null=True)
+    
     icon = models.CharField(max_length=50, help_text="Nom de l'icône Lucide (ex: MessageCircle)")
     color = models.CharField(max_length=20, help_text="Code couleur hex (ex: #002D62)")
+    
     tag = models.CharField(max_length=50)
+    tag_en = models.CharField(max_length=50, blank=True, null=True)
+    tag_es = models.CharField(max_length=50, blank=True, null=True)
+    
     next_event = models.CharField(max_length=150, blank=True, null=True, help_text="Texte libre indiquant la date du prochain événement")
+    next_event_en = models.CharField(max_length=150, blank=True, null=True)
+    next_event_es = models.CharField(max_length=150, blank=True, null=True)
+    
     location = models.CharField(max_length=200)
+    location_en = models.CharField(max_length=200, blank=True, null=True)
+    location_es = models.CharField(max_length=200, blank=True, null=True)
+    
     participants = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='activities/', blank=True, null=True)
     achievements = models.JSONField(default=list, help_text="Liste des réalisations (format JSON)") 
@@ -44,11 +70,24 @@ class Event(models.Model):
         ('gouvernance', 'Gouvernance'),
     )
     title = models.CharField(max_length=200)
+    title_en = models.CharField(max_length=200, blank=True, null=True)
+    title_es = models.CharField(max_length=200, blank=True, null=True)
+    
     description = models.TextField(blank=True, null=True)
+    description_en = models.TextField(blank=True, null=True)
+    description_es = models.TextField(blank=True, null=True)
+    
     type = models.CharField(max_length=50, choices=EVENT_TYPES)
     date = models.DateField()
+    
     time = models.CharField(max_length=100, blank=True, null=True, help_text="Texte libre pour l'horaire")
+    time_en = models.CharField(max_length=100, blank=True, null=True)
+    time_es = models.CharField(max_length=100, blank=True, null=True)
+    
     location = models.CharField(max_length=200)
+    location_en = models.CharField(max_length=200, blank=True, null=True)
+    location_es = models.CharField(max_length=200, blank=True, null=True)
+    
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True, related_name='events')
 
     class Meta:
@@ -61,6 +100,8 @@ class Event(models.Model):
 
 class Album(models.Model):
     title = models.CharField(max_length=200)
+    title_en = models.CharField(max_length=200, blank=True, null=True)
+    title_es = models.CharField(max_length=200, blank=True, null=True)
     year = models.IntegerField(help_text="Année de l'album")
     order = models.PositiveIntegerField(default=0)
     
@@ -85,12 +126,26 @@ class Photo(models.Model):
 
 class Article(models.Model):
     slug = models.SlugField(unique=True)
+    
     title = models.CharField(max_length=200)
+    title_en = models.CharField(max_length=200, blank=True, null=True)
+    title_es = models.CharField(max_length=200, blank=True, null=True)
+    
     category = models.CharField(max_length=100, help_text="Catégorie affichée (ex: Mémoire)")
+    category_en = models.CharField(max_length=100, blank=True, null=True)
+    category_es = models.CharField(max_length=100, blank=True, null=True)
+    
     tag = models.CharField(max_length=50, help_text="Sert uniquement aux couleurs, ex: commemoration, formation")
     date = models.DateField()
+    
     excerpt = models.TextField(help_text="Extrait visible sur la carte")
+    excerpt_en = models.TextField(blank=True, null=True)
+    excerpt_es = models.TextField(blank=True, null=True)
+    
     content = models.TextField(help_text="Contenu complet de l'article")
+    content_en = models.TextField(blank=True, null=True)
+    content_es = models.TextField(blank=True, null=True)
+    
     image = models.ImageField(upload_to='articles/', blank=True, null=True)
 
     class Meta:
@@ -104,11 +159,24 @@ class Article(models.Model):
 class Story(models.Model):
     name = models.CharField(max_length=150, help_text="Nom du témoin")
     age = models.CharField(max_length=10, blank=True)
+    
     role = models.CharField(max_length=100, blank=True)
+    role_en = models.CharField(max_length=100, blank=True, null=True)
+    role_es = models.CharField(max_length=100, blank=True, null=True)
+    
     image = models.ImageField(upload_to='stories/', blank=True, null=True)
+    
     teaser = models.CharField(max_length=255, help_text="Citation courte d'accroche")
+    teaser_en = models.CharField(max_length=255, blank=True, null=True)
+    teaser_es = models.CharField(max_length=255, blank=True, null=True)
+    
     excerpt = models.TextField(help_text="Extrait pour la carte")
+    excerpt_en = models.TextField(blank=True, null=True)
+    excerpt_es = models.TextField(blank=True, null=True)
+    
     full_text = models.TextField(help_text="Témoignage complet")
+    full_text_en = models.TextField(blank=True, null=True)
+    full_text_es = models.TextField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Témoignage"
@@ -121,6 +189,8 @@ class TeamMember(models.Model):
     name = models.CharField(max_length=150)
     initials = models.CharField(max_length=10)
     role = models.CharField(max_length=200)
+    role_en = models.CharField(max_length=200, blank=True, null=True)
+    role_es = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='team/', blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
 
@@ -135,6 +205,8 @@ class TeamMember(models.Model):
 class ProgrammeItem(models.Model):
     time = models.CharField(max_length=100, help_text="Horaire direct (ex: 10h00 - 12h00)")
     event = models.CharField(max_length=255, help_text="Titre de la session")
+    event_en = models.CharField(max_length=255, blank=True, null=True)
+    event_es = models.CharField(max_length=255, blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -146,6 +218,8 @@ class PastEdition(models.Model):
     year = models.CharField(max_length=4)
     count = models.PositiveIntegerField(help_text="Nombre de participants")
     highlight = models.TextField(help_text="Fait marquant de l'édition")
+    highlight_en = models.TextField(blank=True, null=True)
+    highlight_es = models.TextField(blank=True, null=True)
 
     class Meta:
         ordering = ['-year']
@@ -154,7 +228,11 @@ class PastEdition(models.Model):
 
 class SupportForm(models.Model):
     title = models.CharField(max_length=100)
+    title_en = models.CharField(max_length=100, blank=True, null=True)
+    title_es = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField()
+    description_en = models.TextField(blank=True, null=True)
+    description_es = models.TextField(blank=True, null=True)
     icon_name = models.CharField(max_length=50, help_text="Nom lucide-react (ex: HandHeart)")
     order = models.PositiveIntegerField(default=0)
 
@@ -165,7 +243,11 @@ class SupportForm(models.Model):
 
 class PaymentMethod(models.Model):
     label = models.CharField(max_length=100)
+    label_en = models.CharField(max_length=100, blank=True, null=True)
+    label_es = models.CharField(max_length=100, blank=True, null=True)
     detail = models.CharField(max_length=200)
+    detail_en = models.CharField(max_length=200, blank=True, null=True)
+    detail_es = models.CharField(max_length=200, blank=True, null=True)
     icon_name = models.CharField(max_length=50)
     order = models.PositiveIntegerField(default=0)
 
@@ -178,18 +260,37 @@ class SiteConfiguration(models.Model):
     site_name = models.CharField(max_length=100, default="ARMMK")
     site_logo = models.ImageField(upload_to='settings/', blank=True, null=True)
     about_text = models.TextField(blank=True, help_text="Texte d'à propos global (footer/home)")
+    about_text_en = models.TextField(blank=True, null=True)
+    about_text_es = models.TextField(blank=True, null=True)
     
     # Page À Propos
     about_history_title = models.CharField(max_length=255, blank=True, default="Née de la douleur, portée par la dignité")
+    about_history_title_en = models.CharField(max_length=255, blank=True, null=True)
+    about_history_title_es = models.CharField(max_length=255, blank=True, null=True)
+    
     about_history_content = models.TextField(blank=True)
+    about_history_content_en = models.TextField(blank=True, null=True)
+    about_history_content_es = models.TextField(blank=True, null=True)
+    
     about_history_image = models.ImageField(upload_to='about/', blank=True, null=True)
     
     mission_text = models.TextField(blank=True)
+    mission_text_en = models.TextField(blank=True, null=True)
+    mission_text_es = models.TextField(blank=True, null=True)
+    
     vision_text = models.TextField(blank=True)
+    vision_text_en = models.TextField(blank=True, null=True)
+    vision_text_es = models.TextField(blank=True, null=True)
 
     # Page Massacre
     massacre_intro_title = models.CharField(max_length=255, blank=True, default="Un crime contre l'humanité en plein cœur du Congo")
+    massacre_intro_title_en = models.CharField(max_length=255, blank=True, null=True)
+    massacre_intro_title_es = models.CharField(max_length=255, blank=True, null=True)
+    
     massacre_intro_content = models.TextField(blank=True)
+    massacre_intro_content_en = models.TextField(blank=True, null=True)
+    massacre_intro_content_es = models.TextField(blank=True, null=True)
+    
     massacre_intro_image = models.ImageField(upload_to='massacre/', blank=True, null=True)
 
     contact_email = models.EmailField(default="contact@armmk.org")
@@ -269,7 +370,11 @@ class TestimonySubmission(models.Model):
 
 class Value(models.Model):
     label = models.CharField(max_length=100)
+    label_en = models.CharField(max_length=100, blank=True, null=True)
+    label_es = models.CharField(max_length=100, blank=True, null=True)
     desc = models.TextField()
+    desc_en = models.TextField(blank=True, null=True)
+    desc_es = models.TextField(blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
     class Meta:
         ordering = ['order']
@@ -289,8 +394,16 @@ class Document(models.Model):
     LANGUAGE_CHOICES = [('FR', 'Français'), ('EN', 'English'), ('SW', 'Swahili')]
 
     title = models.CharField(max_length=255)
+    title_en = models.CharField(max_length=255, blank=True, null=True)
+    title_es = models.CharField(max_length=255, blank=True, null=True)
+    
     description = models.TextField()
+    description_en = models.TextField(blank=True, null=True)
+    description_es = models.TextField(blank=True, null=True)
+    
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    category_en = models.CharField(max_length=20, blank=True, null=True)
+    category_es = models.CharField(max_length=20, blank=True, null=True)
     date = models.CharField(max_length=50) 
     size = models.CharField(max_length=20) 
     pages = models.PositiveIntegerField()
@@ -311,7 +424,11 @@ class Document(models.Model):
 class TimelineEvent(models.Model):
     date = models.CharField(max_length=50, help_text="Ex: 30 DÉC. 1998")
     title = models.CharField(max_length=255)
+    title_en = models.CharField(max_length=255, blank=True, null=True)
+    title_es = models.CharField(max_length=255, blank=True, null=True)
     text = models.TextField()
+    text_en = models.TextField(blank=True, null=True)
+    text_es = models.TextField(blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
     class Meta:
         ordering = ['order']
@@ -323,8 +440,14 @@ class TimelineEvent(models.Model):
 class Partner(models.Model):
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=100, help_text="Ex: ONG Internationale")
+    type_en = models.CharField(max_length=100, blank=True, null=True)
+    type_es = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100)
+    country_en = models.CharField(max_length=100, blank=True, null=True)
+    country_es = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField()
+    description_en = models.TextField(blank=True, null=True)
+    description_es = models.TextField(blank=True, null=True)
     href = models.URLField(blank=True, default="#")
     order = models.PositiveIntegerField(default=0)
     class Meta:
@@ -336,8 +459,12 @@ class Partner(models.Model):
 
 class Statistic(models.Model):
     label = models.CharField(max_length=100)
+    label_en = models.CharField(max_length=100, blank=True, null=True)
+    label_es = models.CharField(max_length=100, blank=True, null=True)
     value = models.CharField(max_length=50) 
     sub = models.CharField(max_length=100, blank=True)
+    sub_en = models.CharField(max_length=100, blank=True, null=True)
+    sub_es = models.CharField(max_length=100, blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -349,11 +476,25 @@ class Statistic(models.Model):
 
 class CommemorationSection(models.Model):
     title = models.CharField(max_length=255)
+    title_en = models.CharField(max_length=255, blank=True, null=True)
+    title_es = models.CharField(max_length=255, blank=True, null=True)
+    
     description = models.TextField()
+    description_en = models.TextField(blank=True, null=True)
+    description_es = models.TextField(blank=True, null=True)
+    
     date_text = models.CharField(max_length=100, help_text="Ex: 30 Décembre 2025 – 2 Janvier 2026")
+    date_text_en = models.CharField(max_length=100, blank=True, null=True)
+    date_text_es = models.CharField(max_length=100, blank=True, null=True)
+    
     location = models.CharField(max_length=200)
+    location_en = models.CharField(max_length=200, blank=True, null=True)
+    location_es = models.CharField(max_length=200, blank=True, null=True)
+    
     countdown_day = models.CharField(max_length=10, help_text="Ex: 30")
     countdown_month_year = models.CharField(max_length=100, help_text="Ex: Décembre 2026")
+    countdown_month_year_en = models.CharField(max_length=100, blank=True, null=True)
+    countdown_month_year_es = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField(upload_to='commemoration/', blank=True, null=True)
 
     class Meta:
@@ -365,7 +506,11 @@ class CommemorationSection(models.Model):
 class HomeCTAAction(models.Model):
     icon_name = models.CharField(max_length=50, help_text="Nom Lucide icon")
     title = models.CharField(max_length=100)
+    title_en = models.CharField(max_length=100, blank=True, null=True)
+    title_es = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField()
+    description_en = models.TextField(blank=True, null=True)
+    description_es = models.TextField(blank=True, null=True)
     href = models.CharField(max_length=255)
     is_primary = models.BooleanField(default=False)
     order = models.PositiveIntegerField(default=0)
@@ -379,9 +524,13 @@ class HomeCTAAction(models.Model):
 
 class NavLink(models.Model):
     label = models.CharField(max_length=100)
+    label_en = models.CharField(max_length=100, blank=True, null=True)
+    label_es = models.CharField(max_length=100, blank=True, null=True)
     href = models.CharField(max_length=255)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     description = models.CharField(max_length=255, blank=True)
+    description_en = models.CharField(max_length=255, blank=True, null=True)
+    description_es = models.CharField(max_length=255, blank=True, null=True)
     is_overflow = models.BooleanField(default=False, help_text="Affiché dans le menu 'Plus'")
     order = models.PositiveIntegerField(default=0)
 

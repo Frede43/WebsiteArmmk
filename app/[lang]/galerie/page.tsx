@@ -1,18 +1,22 @@
 "use client"
 
+import { useState, useEffect, Suspense, use } from "react"
 import Image from "next/image"
-import { useState, useEffect } from "react"
 import { X, ZoomIn } from "lucide-react"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import PageShell from "@/components/page-shell"
 import { fetchAPI } from "@/lib/api"
 
-
-
-export default function GaleriePage() {
+function GalerieContent({ lang }: { lang: string }) {
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null)
   const [albums, setAlbums] = useState<any[]>([])
+
+  const getField = (obj: any, field: string) => {
+    if (!obj) return ""
+    if (lang === 'fr') return obj[field]
+    const translated = obj[`${field}_${lang}`]
+    return translated || obj[field]
+  }
 
   useEffect(() => {
     fetchAPI('/albums/').then(data => {
@@ -20,16 +24,24 @@ export default function GaleriePage() {
     })
   }, [])
 
-  const allPhotos = albums.flatMap((a) => a.photos || [])
+  const t = {
+    title: lang === 'en' ? 'Gallery' : lang === 'es' ? 'Galería' : 'Galerie',
+    subtitle: lang === 'en' 
+      ? 'Photos and videos of commemorations, workshops and activities of ARMMK.'
+      : lang === 'es'
+      ? 'Fotos y videos de conmemoraciones, talleres y actividades de ARMMK.'
+      : 'Photos et vidéos des commémorations, ateliers et activités de l\'ARMMK.',
+    close: lang === 'en' ? 'Close' : lang === 'es' ? 'Cerrar' : 'Fermer',
+  }
 
   return (
     <>
-      <Navbar />
       <PageShell
-        title="Galerie"
-        subtitle="Photos et vidéos des commémorations, ateliers et activités de l'ARMMK."
+        title={t.title}
+        subtitle={t.subtitle}
         image="/images/commemoration.jpg"
-        breadcrumbs={[{ label: "Galerie" }]}
+        breadcrumbs={[{ label: t.title }]}
+        lang={lang}
       />
 
       {/* Albums par année */}
@@ -42,19 +54,19 @@ export default function GaleriePage() {
                   <span className="text-xs font-bold uppercase tracking-widest text-[#D32F2F] block mb-1">
                     {album.year}
                   </span>
-                  <h2 className="font-serif text-2xl font-bold text-[#002D62]">{album.title}</h2>
+                  <h2 className="font-serif text-2xl font-bold text-[#002D62]">{getField(album, 'title')}</h2>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {album.photos?.map((photo: any) => (
+                {album.photos?.map((photo: any, idx: number) => (
                   <button
-                    key={photo.src}
+                    key={idx}
                     onClick={() => setLightbox(photo)}
                     className="relative aspect-video overflow-hidden rounded-lg group focus:outline-none focus:ring-2 focus:ring-[#002D62]"
                   >
                     <Image
                       src={photo.src}
-                      alt={photo.alt}
+                      alt={getField(photo, 'alt')}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -65,7 +77,7 @@ export default function GaleriePage() {
                       />
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-xs">{photo.alt}</p>
+                      <p className="text-white text-xs">{getField(photo, 'alt')}</p>
                     </div>
                   </button>
                 ))}
@@ -84,7 +96,7 @@ export default function GaleriePage() {
           <button
             onClick={() => setLightbox(null)}
             className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-[#D32F2F] text-white flex items-center justify-center transition-colors z-10"
-            aria-label="Fermer"
+            aria-label={t.close}
           >
             <X size={20} />
           </button>
@@ -94,17 +106,28 @@ export default function GaleriePage() {
           >
             <Image
               src={lightbox.src}
-              alt={lightbox.alt}
+              alt={getField(lightbox, 'alt')}
               width={1200}
               height={800}
               className="object-contain w-full h-auto rounded-lg max-h-[80vh]"
             />
-            <p className="text-white/70 text-sm text-center mt-3">{lightbox.alt}</p>
+            <p className="text-white/70 text-sm text-center mt-3">{getField(lightbox, 'alt')}</p>
           </div>
         </div>
       )}
 
-      <Footer />
+      <Footer lang={lang} />
     </>
+  )
+}
+
+export default function GaleriePage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = use(params)
+  const t_loading = lang === 'en' ? 'Loading...' : lang === 'es' ? 'Cargando...' : 'Chargement...'
+
+  return (
+    <Suspense fallback={<div>{t_loading}</div>}>
+      <GalerieContent lang={lang} />
+    </Suspense>
   )
 }

@@ -1,20 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense, use } from "react"
 import Link from "next/link"
 import { HandHeart, Users, Package, GraduationCap, CheckCircle2, Smartphone, Landmark, Globe } from "lucide-react"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import PageShell from "@/components/page-shell"
 import { fetchAPI } from "@/lib/api"
 
 const amounts = [5, 10, 25, 50, 100]
 
-
-
-
-
-export default function SoutenirPage() {
+function SoutenirContent({ lang }: { lang: string }) {
   const [selected, setSelected] = useState<number | null>(25)
   const [custom, setCustom] = useState("")
   const [sent, setSent] = useState(false)
@@ -23,6 +18,13 @@ export default function SoutenirPage() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [isMonthly, setIsMonthly] = useState(false)
+
+  const getField = (obj: any, field: string) => {
+    if (!obj) return ""
+    if (lang === 'fr') return obj[field]
+    const translated = obj[`${field}_${lang}`]
+    return translated || obj[field]
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,14 +54,49 @@ export default function SoutenirPage() {
   
   const iconMap: Record<string, any> = { HandHeart, Users, GraduationCap, Package, Smartphone, Landmark, Globe }
 
+  const t = {
+    title: lang === 'en' ? 'Support Us' : lang === 'es' ? 'Apóyenos' : 'Nous Soutenir',
+    subtitle: lang === 'en'
+      ? 'Your support allows ARMMK to continue its work of memory, reconciliation and support for survivors and orphans of Makobola.'
+      : lang === 'es'
+      ? 'Su apoyo permite a ARMMK continuar su trabajo de memoria, reconciliación y apoyo a los sobrevivientes y huérfanos de Makobola.'
+      : 'Votre soutien permet à l\'ARMMK de poursuivre son travail de mémoire, de réconciliation et d\'accompagnement des rescapés et orphelins de Makobola.',
+    breadcrumb: lang === 'en' ? 'Support us' : lang === 'es' ? 'Apóyenos' : 'Nous soutenir',
+    actBadge: lang === 'en' ? 'Take action' : lang === 'es' ? 'Actúa ahora' : 'Agissez concrètement',
+    howToSupport: lang === 'en' ? 'How to support us' : lang === 'es' ? 'Cómo apoyarnos' : 'Comment nous soutenir',
+    onlineDonation: lang === 'en' ? 'Make an online donation' : lang === 'es' ? 'Hacer una donación en línea' : 'Faire un don en ligne',
+    chooseAmount: lang === 'en' ? 'Choose an amount or enter yours' : lang === 'es' ? 'Elija un monto o ingrese el suyo' : 'Choisissez un montant ou saisissez le vôtre',
+    thanksTitle: lang === 'en' ? 'Thank you for your generosity' : lang === 'es' ? 'Gracias por su generosidad' : 'Merci pour votre générosité',
+    thanksText: lang === 'en'
+      ? 'Your request has been recorded. The ARMMK team will contact you with payment instructions adapted to your location.'
+      : lang === 'es'
+      ? 'Su solicitud ha sido registrada. El equipo de ARMMK se pondrá en contacto con usted con las instrucciones de pago adaptadas a su ubicación.'
+      : 'Votre demande a été enregistrée. L\'équipe de l\'ARMMK vous contactera avec les instructions de paiement adaptées à votre localisation.',
+    amountLabel: lang === 'en' ? 'Amount (USD)' : lang === 'es' ? 'Monto (USD)' : 'Montant (USD)',
+    otherAmount: lang === 'en' ? 'Other amount...' : lang === 'es' ? 'Otro monto...' : 'Autre montant…',
+    frequency: lang === 'en' ? 'Frequency' : lang === 'es' ? 'Frecuencia' : 'Fréquence',
+    oneTime: lang === 'en' ? 'One-time donation' : lang === 'es' ? 'Donación única' : 'Don unique',
+    monthly: lang === 'en' ? 'Monthly' : lang === 'es' ? 'Mensual' : 'Mensuel',
+    fullName: lang === 'en' ? 'First and Last Name' : lang === 'es' ? 'Nombre y apellido' : 'Prénom et nom',
+    email: 'Email',
+    confirmDonation: lang === 'en' ? 'Confirm my donation' : lang === 'es' ? 'Confirmar mi donación' : 'Confirmer mon don',
+    paymentMethods: lang === 'en' ? 'Available payment methods' : lang === 'es' ? 'Métodos de pago disponibles' : 'Moyens de paiement disponibles',
+    impactTitle: lang === 'en' ? 'The impact of your donation' : lang === 'es' ? 'El impacto de su donación' : 'L\'impact de votre don',
+    impacts: [
+      { amount: "$10", impact: lang === 'en' ? 'School supplies for an orphan for a month' : lang === 'es' ? 'Útiles escolares para un huérfano por un mes' : 'Fournitures scolaires pour un orphelin pendant un mois' },
+      { amount: "$50", impact: lang === 'en' ? 'Funding of a talking group session for survivors' : lang === 'es' ? 'Financiación de una sesión de grupo de palabra para sobrevivientes' : 'Financement d\'une session de groupe de parole pour rescapés' },
+      { amount: "$100", impact: lang === 'en' ? 'Support for the organization of an inter-community dialogue workshop' : lang === 'es' ? 'Apoyo para la organización de un taller de diálogo intercomunitario' : 'Soutien à l\'organisation d\'un atelier de dialogue inter-communautaire' },
+    ]
+  }
+
   return (
     <>
-      <Navbar />
       <PageShell
-        title="Nous Soutenir"
-        subtitle="Votre soutien permet à l'ARMMK de poursuivre son travail de mémoire, de réconciliation et d'accompagnement des rescapés et orphelins de Makobola."
+        title={t.title}
+        subtitle={t.subtitle}
         image="/images/orphans-support.jpg"
-        breadcrumbs={[{ label: "Nous soutenir" }]}
+        breadcrumbs={[{ label: t.breadcrumb }]}
+        lang={lang}
       />
 
       {/* Formes de soutien */}
@@ -67,22 +104,22 @@ export default function SoutenirPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-[#D32F2F] mb-3 block">
-              Agissez concrètement
+              {t.actBadge}
             </span>
             <h2 className="font-serif text-3xl font-bold text-[#002D62]">
-              Comment nous soutenir
+              {t.howToSupport}
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {supports.map((s: any) => {
               const Icon = iconMap[s.iconName] || HandHeart
               return (
-                <div key={s.title} className="bg-[#F8F6F2] rounded-lg border border-border p-7 hover:shadow-md transition-shadow text-center">
+                <div key={s.id || s.title} className="bg-[#F8F6F2] rounded-lg border border-border p-7 hover:shadow-md transition-shadow text-center">
                   <div className="w-12 h-12 rounded-full bg-[#002D62] flex items-center justify-center mx-auto mb-4">
                     <Icon size={22} className="text-white" />
                   </div>
-                  <h3 className="font-serif font-bold text-[#002D62] text-base mb-2">{s.title}</h3>
-                  <p className="text-muted-foreground text-xs leading-relaxed">{s.description}</p>
+                  <h3 className="font-serif font-bold text-[#002D62] text-base mb-2">{getField(s, 'title')}</h3>
+                  <p className="text-muted-foreground text-xs leading-relaxed">{getField(s, 'description')}</p>
                 </div>
               )
             })}
@@ -92,18 +129,17 @@ export default function SoutenirPage() {
           <div className="max-w-2xl mx-auto">
             <div className="bg-white border-2 border-[#002D62] rounded-lg overflow-hidden shadow-xl">
               <div className="bg-[#002D62] px-8 py-6">
-                <h3 className="font-serif text-xl font-bold text-white">Faire un don en ligne</h3>
-                <p className="text-white/65 text-sm mt-1">Choisissez un montant ou saisissez le vôtre</p>
+                <h3 className="font-serif text-xl font-bold text-white">{t.onlineDonation}</h3>
+                <p className="text-white/65 text-sm mt-1">{t.chooseAmount}</p>
               </div>
               {sent ? (
                 <div className="p-10 text-center">
                   <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
                     <CheckCircle2 size={32} className="text-green-600" />
                   </div>
-                  <h4 className="font-serif text-xl font-bold text-[#002D62] mb-2">Merci pour votre générosité</h4>
+                  <h4 className="font-serif text-xl font-bold text-[#002D62] mb-2">{t.thanksTitle}</h4>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    Votre demande a été enregistrée. L&apos;équipe de l&apos;ARMMK vous contactera
-                    avec les instructions de paiement adaptées à votre localisation.
+                    {t.thanksText}
                   </p>
                 </div>
               ) : (
@@ -114,7 +150,7 @@ export default function SoutenirPage() {
                   {/* Montants prédéfinis */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-3">
-                      Montant (USD)
+                      {t.amountLabel}
                     </label>
                     <div className="grid grid-cols-5 gap-2 mb-3">
                       {amounts.map((a) => (
@@ -134,7 +170,7 @@ export default function SoutenirPage() {
                     </div>
                     <input
                       type="number"
-                      placeholder="Autre montant…"
+                      placeholder={t.otherAmount}
                       value={custom}
                       onChange={(e) => { setCustom(e.target.value); setSelected(null) }}
                       className="w-full border border-border rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002D62]/30"
@@ -143,16 +179,16 @@ export default function SoutenirPage() {
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-3">
-                      Fréquence
+                      {t.frequency}
                     </label>
                     <div className="grid grid-cols-2 gap-3">
                       <label className="flex items-center gap-2 border border-border rounded px-4 py-3 cursor-pointer hover:border-[#002D62] transition-colors">
                         <input type="radio" name="frequency" checked={!isMonthly} onChange={() => setIsMonthly(false)} className="accent-[#D32F2F]" />
-                        <span className="text-sm font-medium">Don unique</span>
+                        <span className="text-sm font-medium">{t.oneTime}</span>
                       </label>
                       <label className="flex items-center gap-2 border border-border rounded px-4 py-3 cursor-pointer hover:border-[#002D62] transition-colors">
                         <input type="radio" name="frequency" checked={isMonthly} onChange={() => setIsMonthly(true)} className="accent-[#D32F2F]" />
-                        <span className="text-sm font-medium">Mensuel</span>
+                        <span className="text-sm font-medium">{t.monthly}</span>
                       </label>
                     </div>
                   </div>
@@ -161,20 +197,20 @@ export default function SoutenirPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-2">
-                        Prénom et nom <span className="text-[#D32F2F]">*</span>
+                        {t.fullName} <span className="text-[#D32F2F]">*</span>
                       </label>
                       <input
                         required
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Votre nom"
+                        placeholder={lang === 'en' ? 'Your name' : lang === 'es' ? 'Su nombre' : 'Votre nom'}
                         className="w-full border border-border rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002D62]/30"
                       />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-2">
-                        Email <span className="text-[#D32F2F]">*</span>
+                        {t.email} <span className="text-[#D32F2F]">*</span>
                       </label>
                       <input
                         required
@@ -192,7 +228,7 @@ export default function SoutenirPage() {
                     className="w-full bg-[#D32F2F] hover:bg-red-700 text-white font-bold text-sm uppercase tracking-wider py-4 rounded transition-colors flex items-center justify-center gap-2"
                   >
                     <HandHeart size={18} />
-                    Confirmer mon don {selected ? `de $${selected}` : custom ? `de $${custom}` : ""}
+                    {t.confirmDonation} {selected ? `de $${selected}` : custom ? `de $${custom}` : ""}
                   </button>
                 </form>
               )}
@@ -205,19 +241,19 @@ export default function SoutenirPage() {
       <section className="py-16 bg-[#F8F6F2]">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-10">
-            <h3 className="font-serif text-2xl font-bold text-[#002D62]">Moyens de paiement disponibles</h3>
+            <h3 className="font-serif text-2xl font-bold text-[#002D62]">{t.paymentMethods}</h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {paymentMethods.map((m: any) => {
               const Icon = iconMap[m.iconName] || Landmark
               return (
-                <div key={m.label} className="flex items-center gap-4 bg-white border border-border rounded-lg px-6 py-4">
+                <div key={m.id || m.label} className="flex items-center gap-4 bg-white border border-border rounded-lg px-6 py-4">
                   <div className="w-10 h-10 rounded-full bg-[#002D62]/10 flex items-center justify-center shrink-0">
                     <Icon size={18} className="text-[#002D62]" />
                   </div>
                   <div>
-                    <p className="font-semibold text-sm text-[#002D62]">{m.label}</p>
-                    <p className="text-muted-foreground text-xs mt-0.5">{m.detail}</p>
+                    <p className="font-semibold text-sm text-[#002D62]">{getField(m, 'label')}</p>
+                    <p className="text-muted-foreground text-xs mt-0.5">{getField(m, 'detail')}</p>
                   </div>
                 </div>
               )
@@ -230,14 +266,10 @@ export default function SoutenirPage() {
       <section className="py-16 bg-[#002D62]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-10">
-            <h3 className="font-serif text-2xl font-bold text-white">L&apos;impact de votre don</h3>
+            <h3 className="font-serif text-2xl font-bold text-white">{t.impactTitle}</h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-            {[
-              { amount: "$10", impact: "Fournitures scolaires pour un orphelin pendant un mois" },
-              { amount: "$50", impact: "Financement d'une session de groupe de parole pour rescapés" },
-              { amount: "$100", impact: "Soutien à l'organisation d'un atelier de dialogue inter-communautaire" },
-            ].map((i) => (
+            {t.impacts.map((i) => (
               <div key={i.amount} className="bg-white/5 border border-white/10 rounded-lg p-6">
                 <p className="font-serif text-3xl font-bold text-[#D32F2F] mb-2">{i.amount}</p>
                 <p className="text-white/70 text-sm leading-relaxed">{i.impact}</p>
@@ -247,7 +279,18 @@ export default function SoutenirPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer lang={lang} />
     </>
+  )
+}
+
+export default function SoutenirPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = use(params)
+  const t_loading = lang === 'en' ? 'Loading...' : lang === 'es' ? 'Cargando...' : 'Chargement...'
+
+  return (
+    <Suspense fallback={<div>{t_loading}</div>}>
+      <SoutenirContent lang={lang} />
+    </Suspense>
   )
 }

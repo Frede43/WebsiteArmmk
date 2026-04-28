@@ -17,7 +17,12 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'type', 'description', 'time', 'location', 'date']
+        fields = [
+            'id', 'title', 'title_en', 'title_es', 
+            'type', 'description', 'description_en', 'description_es', 
+            'time', 'time_en', 'time_es', 
+            'location', 'location_en', 'location_es', 'date'
+        ]
 
     def get_date(self, obj):
         months = ["Jan.", "Fév.", "Mars", "Avr.", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Déc."]
@@ -37,7 +42,7 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ['title', 'year', 'photos']
+        fields = ['title', 'title_en', 'title_es', 'year', 'photos']
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -143,7 +148,11 @@ class NavLinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NavLink
-        fields = ['id', 'label', 'href', 'description', 'is_overflow', 'children']
+        fields = [
+            'id', 'label', 'label_en', 'label_es', 
+            'href', 'description', 'description_en', 'description_es', 
+            'is_overflow', 'children'
+        ]
 
     def get_children(self, obj):
         if obj.children.exists():

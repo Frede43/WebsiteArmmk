@@ -1,0 +1,32 @@
+{
+  "navbar": {
+    "home": "Home",
+    "about": "About Us",
+    "massacre": "The Massacre",
+    "activities": "Our Activities",
+    "all_activities": "All activities",
+    "upcoming": "Upcoming",
+    "calendar": "Calendar",
+    "dialogue": "Dialogue & Peace",
+    "commemorations": "Commemorations",
+    "testimonials": "Testimonials",
+    "news": "News",
+    "gallery": "Gallery",
+    "documents": "Documents",
+    "partners": "Partners",
+    "contact": "Contact",
+    "visit_memorial": "Visit the Memorial",
+    "search_placeholder": "What are you looking for?",
+    "search_results": "Results:",
+    "no_results": "No results found for",
+    "suggestions": "Suggestions:"
+  },
+  "common": {
+    "donate": "Donate",
+    "volunteer": "Become a volunteer",
+    "read_more": "Read more",
+    "loading": "Loading...",
+    "error_occurred": "An error occurred",
+    "footer_about": "ARMMK is an organization dedicated to the memory of the victims of the Makobola massacre and the development of peace in the Fizi region."
+  }
+}

@@ -1,13 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense, use } from "react"
 import { MapPin, Mail, Phone, Clock, Send, CheckCircle2 } from "lucide-react"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import PageShell from "@/components/page-shell"
 import { fetchAPI } from "@/lib/api"
 
-export default function ContactPage() {
+function ContactContent({ lang }: { lang: string }) {
   const [sent, setSent] = useState(false)
   const [config, setConfig] = useState<any>(null)
   
@@ -41,13 +40,61 @@ export default function ContactPage() {
     }
   }
 
+  const t = {
+    title: lang === 'en' ? 'Contact Us' : lang === 'es' ? 'Contáctenos' : 'Nous Contacter',
+    subtitle: lang === 'en' 
+      ? 'A question, a partnership request, a testimony to share? The ARMMK team will answer you as soon as possible.'
+      : lang === 'es'
+      ? '¿Una pregunta, una solicitud de asociación, un testimonio para compartir? El equipo de ARMMK le responderá lo antes posible.'
+      : 'Une question, une demande de partenariat, un témoignage à partager ? L\'équipe de l\'ARMMK vous répondra dans les meilleurs délais.',
+    findUs: lang === 'en' ? 'Where to find us' : lang === 'es' ? 'Dónde encontrarnos' : 'Où nous trouver',
+    coordinates: lang === 'en' ? 'ARMMK contact details' : lang === 'es' ? 'Coordenadas de ARMMK' : 'Coordonnées de l\'ARMMK',
+    address: lang === 'en' ? 'Address' : lang === 'es' ? 'Dirección' : 'Adresse',
+    phone: lang === 'en' ? 'Phone' : lang === 'es' ? 'Teléfono' : 'Téléphone',
+    officeHours: lang === 'en' ? 'Office hours' : lang === 'es' ? 'Horario de oficina' : 'Horaires du bureau',
+    hoursText: lang === 'en'
+      ? 'Monday – Friday: 8:00 AM – 5:00 PM\nSaturday: 9:00 AM – 12:00 PM (by appointment)'
+      : lang === 'es'
+      ? 'Lunes – Viernes: 8:00 AM – 5:00 PM\nSábado: 9:00 AM – 12:00 PM (con cita previa)'
+      : 'Lundi – Vendredi : 8h00 – 17h00\nSamedi : 9h00 – 12h00 (sur rendez-vous)',
+    writeUs: lang === 'en' ? 'Write to us' : lang === 'es' ? 'Escríbanos' : 'Écrivez-nous',
+    formTitle: lang === 'en' ? 'Contact form' : lang === 'es' ? 'Formulario de contacto' : 'Formulaire de contact',
+    sentTitle: lang === 'en' ? 'Message sent' : lang === 'es' ? 'Mensaje enviado' : 'Message envoyé',
+    sentText: lang === 'en'
+      ? 'Thank you for contacting us. The ARMMK team will answer you within 48 to 72 business hours.'
+      : lang === 'es'
+      ? 'Gracias por contactarnos. El equipo de ARMMK le responderá en un plazo de 48 a 72 horas hábiles.'
+      : 'Merci de nous avoir contactés. L\'équipe de l\'ARMMK vous répondra dans un délai de 48 à 72 heures ouvrables.',
+    firstName: lang === 'en' ? 'First Name' : lang === 'es' ? 'Nombre' : 'Prénom',
+    lastName: lang === 'en' ? 'Last Name' : lang === 'es' ? 'Apellido' : 'Nom',
+    email: 'Email',
+    subject: lang === 'en' ? 'Subject' : lang === 'es' ? 'Asunto' : 'Objet',
+    message: lang === 'en' ? 'Message' : lang === 'es' ? 'Mensaje' : 'Message',
+    send: lang === 'en' ? 'Send message' : lang === 'es' ? 'Enviar message' : 'Envoyer le message',
+    placeholders: {
+      firstName: lang === 'en' ? 'Your first name' : lang === 'es' ? 'Su nombre' : 'Votre prénom',
+      lastName: lang === 'en' ? 'Your last name' : lang === 'es' ? 'Su apellido' : 'Votre nom',
+      message: lang === 'en' ? 'Your message...' : lang === 'es' ? 'Su mensaje...' : 'Votre message...',
+      subject: lang === 'en' ? 'Select a subject...' : lang === 'es' ? 'Seleccione un asunto...' : 'Sélectionnez un objet…',
+    },
+    subjects: [
+      lang === 'en' ? 'General information' : lang === 'es' ? 'Información general' : 'Informations générales',
+      lang === 'en' ? 'Partnership or collaboration' : lang === 'es' ? 'Asociación o colaboración' : 'Partenariat ou collaboration',
+      lang === 'en' ? 'Make a donation' : lang === 'es' ? 'Hacer una donación' : 'Faire un don',
+      lang === 'en' ? 'Become a volunteer' : lang === 'es' ? 'Ser voluntario' : 'Devenir volontaire',
+      lang === 'en' ? 'Share a testimony' : lang === 'es' ? 'Compartir un testimonio' : 'Partager un témoignage',
+      lang === 'en' ? 'Press / media request' : lang === 'es' ? 'Solicitud de prensa / medios' : 'Demande de presse / médias',
+      lang === 'en' ? 'Other' : lang === 'es' ? 'Otro' : 'Autre',
+    ]
+  }
+
   return (
     <>
-      <Navbar />
       <PageShell
-        title="Nous Contacter"
-        subtitle="Une question, une demande de partenariat, un témoignage à partager ? L'équipe de l'ARMMK vous répondra dans les meilleurs délais."
-        breadcrumbs={[{ label: "Contact" }]}
+        title={t.title}
+        subtitle={t.subtitle}
+        breadcrumbs={[{ label: lang === 'en' ? 'Contact' : lang === 'es' ? 'Contacto' : 'Contact' }]}
+        lang={lang}
       />
 
       <section className="py-20 bg-white">
@@ -56,10 +103,10 @@ export default function ContactPage() {
           <div className="lg:col-span-2 space-y-8">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-[#D32F2F] mb-3 block">
-                Où nous trouver
+                {t.findUs}
               </span>
               <h2 className="font-serif text-2xl font-bold text-[#002D62] mb-6">
-                Coordonnées de l&apos;ARMMK
+                {t.coordinates}
               </h2>
             </div>
 
@@ -69,7 +116,7 @@ export default function ContactPage() {
                   <MapPin size={18} className="text-[#002D62]" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#002D62] text-sm mb-0.5">Adresse</p>
+                  <p className="font-semibold text-[#002D62] text-sm mb-0.5">{t.address}</p>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     {config?.address || "Bangwe-Makobola, Territoire de Fizi, Sud-Kivu, RDC"}
                   </p>
@@ -80,7 +127,7 @@ export default function ContactPage() {
                   <Mail size={18} className="text-[#002D62]" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#002D62] text-sm mb-0.5">Email</p>
+                  <p className="font-semibold text-[#002D62] text-sm mb-0.5">{t.email}</p>
                   <a
                     href={`mailto:${config?.contact_email || "info@armmk.org"}`}
                     className="text-[#D32F2F] hover:text-[#002D62] text-sm transition-colors"
@@ -94,7 +141,7 @@ export default function ContactPage() {
                   <Phone size={18} className="text-[#002D62]" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#002D62] text-sm mb-0.5">Téléphone</p>
+                  <p className="font-semibold text-[#002D62] text-sm mb-0.5">{t.phone}</p>
                   <p className="text-muted-foreground text-sm">{config?.contact_phone || "+243 XXX XXX XXX"}</p>
                 </div>
               </li>
@@ -103,10 +150,9 @@ export default function ContactPage() {
                   <Clock size={18} className="text-[#002D62]" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#002D62] text-sm mb-0.5">Horaires du bureau</p>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    Lundi – Vendredi : 8h00 – 17h00<br />
-                    Samedi : 9h00 – 12h00 (sur rendez-vous)
+                  <p className="font-semibold text-[#002D62] text-sm mb-0.5">{t.officeHours}</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed whitespace-pre-line">
+                    {t.hoursText}
                   </p>
                 </div>
               </li>
@@ -117,7 +163,7 @@ export default function ContactPage() {
               <div className="text-center">
                 <MapPin size={32} className="text-[#D32F2F] mx-auto mb-2" />
                 <p className="text-[#002D62] font-semibold text-sm">Makobola, Fizi</p>
-                <p className="text-muted-foreground text-xs mt-0.5">Sud-Kivu, RDC</p>
+                <p className="text-muted-foreground text-xs mt-0.5">{lang === 'en' ? 'South Kivu, DRC' : lang === 'es' ? 'Kivu del Sur, RDC' : 'Sud-Kivu, RDC'}</p>
               </div>
             </div>
           </div>
@@ -125,10 +171,10 @@ export default function ContactPage() {
           {/* Formulaire */}
           <div className="lg:col-span-3">
             <span className="text-xs font-bold uppercase tracking-widest text-[#D32F2F] mb-3 block">
-              Écrivez-nous
+              {t.writeUs}
             </span>
             <h2 className="font-serif text-2xl font-bold text-[#002D62] mb-8">
-              Formulaire de contact
+              {t.formTitle}
             </h2>
 
             {sent ? (
@@ -137,11 +183,10 @@ export default function ContactPage() {
                   <CheckCircle2 size={32} className="text-green-600" />
                 </div>
                 <h3 className="font-serif text-xl font-bold text-[#002D62] mb-2">
-                  Message envoyé
+                  {t.sentTitle}
                 </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  Merci de nous avoir contactés. L&apos;équipe de l&apos;ARMMK vous répondra
-                  dans un délai de 48 à 72 heures ouvrables.
+                  {t.sentText}
                 </p>
               </div>
             ) : (
@@ -152,27 +197,27 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-2">
-                      Prénom <span className="text-[#D32F2F]">*</span>
+                      {t.firstName} <span className="text-[#D32F2F]">*</span>
                     </label>
                     <input
                       required
                       type="text"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      placeholder="Votre prénom"
+                      placeholder={t.placeholders.firstName}
                       className="w-full border border-border rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002D62]/30"
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-2">
-                      Nom <span className="text-[#D32F2F]">*</span>
+                      {t.lastName} <span className="text-[#D32F2F]">*</span>
                     </label>
                     <input
                       required
                       type="text"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      placeholder="Votre nom"
+                      placeholder={t.placeholders.lastName}
                       className="w-full border border-border rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002D62]/30"
                     />
                   </div>
@@ -180,7 +225,7 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-2">
-                      Email <span className="text-[#D32F2F]">*</span>
+                      {t.email} <span className="text-[#D32F2F]">*</span>
                     </label>
                     <input
                       required
@@ -193,7 +238,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-2">
-                      Téléphone
+                      {t.phone}
                     </label>
                     <input
                       type="tel"
@@ -204,7 +249,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-2">
-                    Objet <span className="text-[#D32F2F]">*</span>
+                    {t.subject} <span className="text-[#D32F2F]">*</span>
                   </label>
                   <select
                     required
@@ -212,26 +257,22 @@ export default function ContactPage() {
                     onChange={(e) => setSubject(e.target.value)}
                     className="w-full border border-border rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002D62]/30"
                   >
-                    <option value="">Sélectionnez un objet…</option>
-                    <option>Informations générales</option>
-                    <option>Partenariat ou collaboration</option>
-                    <option>Faire un don</option>
-                    <option>Devenir volontaire</option>
-                    <option>Partager un témoignage</option>
-                    <option>Demande de presse / médias</option>
-                    <option>Autre</option>
+                    <option value="">{t.placeholders.subject}</option>
+                    {t.subjects.map((s, i) => (
+                      <option key={i} value={s}>{s}</option>
+                    ))}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-foreground/60 mb-2">
-                    Message <span className="text-[#D32F2F]">*</span>
+                    {t.message} <span className="text-[#D32F2F]">*</span>
                   </label>
                   <textarea
                     required
                     rows={6}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Votre message…"
+                    placeholder={t.placeholders.message}
                     className="w-full border border-border rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002D62]/30 resize-none"
                   />
                 </div>
@@ -240,7 +281,7 @@ export default function ContactPage() {
                   className="w-full bg-[#002D62] hover:bg-[#001a3d] text-white font-bold text-sm uppercase tracking-wider py-4 rounded transition-colors flex items-center justify-center gap-2"
                 >
                   <Send size={16} />
-                  Envoyer le message
+                  {t.send}
                 </button>
               </form>
             )}
@@ -248,7 +289,18 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer lang={lang} />
     </>
+  )
+}
+
+export default function ContactPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = use(params)
+  const t_loading = lang === 'en' ? 'Loading...' : lang === 'es' ? 'Cargando...' : 'Chargement...'
+
+  return (
+    <Suspense fallback={<div>{t_loading}</div>}>
+      <ContactContent lang={lang} />
+    </Suspense>
   )
 }

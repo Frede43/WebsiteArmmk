@@ -12,11 +12,14 @@ interface PageShellProps {
   subtitle?: string
   image?: string
   breadcrumbs?: Crumb[]
+  lang?: string
 }
 
-export default function PageShell({ title, subtitle, image, breadcrumbs = [] }: PageShellProps) {
+export default function PageShell({ title, subtitle, image, breadcrumbs = [], lang = 'fr' }: PageShellProps) {
+  const homeLabel = lang === 'en' ? 'Home' : lang === 'es' ? 'Inicio' : 'Accueil'
+  
   return (
-    <section className="relative pt-40 pb-20 overflow-hidden">
+    <section className="relative pt-28 sm:pt-40 pb-16 sm:pb-20 overflow-hidden">
       {image ? (
         <>
           <Image src={image} alt={title} fill className="object-cover transition-transform duration-1000 scale-105" />
@@ -30,16 +33,16 @@ export default function PageShell({ title, subtitle, image, breadcrumbs = [] }: 
       {/* Abstract background pattern */}
       <div className="absolute inset-0 opacity-10 pointer-events-none" 
            style={{ backgroundImage: `radial-gradient(#D32F2F 0.5px, transparent 0.5px)`, backgroundSize: '24px 24px' }} />
-
+ 
       {/* Red accent top line */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#D32F2F] via-[#D32F2F] to-transparent" />
-
+ 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Breadcrumb */}
         {breadcrumbs.length > 0 && (
-          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1.5 mb-8 flex-wrap animate-fade-in opacity-0 [animation-delay:200ms]">
-            <Link href="/" className="text-white/50 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-colors">
-              Accueil
+          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1.5 mb-8 flex-wrap animate-fade-in">
+            <Link href={`/${lang}`} className="text-white/50 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-colors">
+              {homeLabel}
             </Link>
             {breadcrumbs.map((crumb) => (
               <span key={crumb.label} className="flex items-center gap-1.5">
@@ -58,9 +61,9 @@ export default function PageShell({ title, subtitle, image, breadcrumbs = [] }: 
             ))}
           </nav>
         )}
-
-        <div className="max-w-3xl animate-slide-up opacity-0 [animation-delay:400ms]">
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-white text-balance leading-[1.1] tracking-tight">
+ 
+        <div className="max-w-3xl animate-slide-up">
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold text-white text-balance leading-[1.1] tracking-tight">
             {title}
           </h1>
           {subtitle && (

@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { MessageCircle, BookOpen, Heart, Flame } from "lucide-react"
-
 import { getActivities } from "@/lib/api"
 
 const iconMap: Record<string, any> = {
@@ -10,18 +9,41 @@ const iconMap: Record<string, any> = {
   "Commémorations": Flame,
 }
 
-export default async function HomeActivities() {
+interface HomeActivitiesProps {
+  lang?: string;
+}
+
+export default async function HomeActivities({ lang = 'fr' }: HomeActivitiesProps) {
   const activities = await getActivities();
+
+  const getField = (obj: any, field: string) => {
+    if (lang === 'fr') return obj[field]
+    const translated = obj[`${field}_${lang}`]
+    return translated || obj[field]
+  }
+
+  const t = {
+    badge: lang === 'en' ? 'What we do' : lang === 'es' ? 'Lo que hacemos' : 'Ce que nous faisons',
+    title: lang === 'en' ? 'Our main activities' : lang === 'es' ? 'Nuestras actividades principales' : 'Nos activités principales',
+    desc: lang === 'en' 
+      ? 'ARMMK acts on four complementary axes to honor the victims, support survivors, and reconcile the communities of Fizi.'
+      : lang === 'es'
+      ? 'ARMMK actúa en cuatro ejes complementarios pour honrar a las víctimas, apoyar a los sobrevivientes y reconciliar a las comunidades de Fizi.'
+      : 'L\'ARMMK agit sur quatre axes complémentaires pour honorer les victimes, accompagner les survivants et réconcilier les communautés de Fizi.',
+    learnMore: lang === 'en' ? 'Learn more' : lang === 'es' ? 'Saber más' : 'En savoir plus',
+    allActivities: lang === 'en' ? 'All our activities' : lang === 'es' ? 'Todas nuestras actividades' : 'Toutes nos activités',
+  }
+
   return (
     <section className="py-20 bg-[#F8F6F2]">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-14">
           <span className="inline-block text-xs font-bold uppercase tracking-widest text-[#D32F2F] mb-3">
-            Ce que nous faisons
+            {t.badge}
           </span>
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#002D62] text-balance">
-            Nos activités principales
+            {t.title}
           </h2>
           <div className="mt-4 flex items-center justify-center gap-3">
             <div className="h-px w-12 bg-[#D32F2F]" />
@@ -29,8 +51,7 @@ export default async function HomeActivities() {
             <div className="h-px w-12 bg-[#D32F2F]" />
           </div>
           <p className="mt-5 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            L&apos;ARMMK agit sur quatre axes complémentaires pour honorer les victimes,
-            accompagner les survivants et réconcilier les communautés de Fizi.
+            {t.desc}
           </p>
         </div>
 
@@ -40,7 +61,7 @@ export default async function HomeActivities() {
             const Icon = iconMap[a.title] || MessageCircle
             return (
               <div
-                key={a.title}
+                key={a.id || a.title}
                 className="bg-white rounded-lg border border-border overflow-hidden group hover:shadow-lg transition-shadow"
               >
                 <div className={`${a.color} p-5 flex items-center justify-center`}>
@@ -48,16 +69,16 @@ export default async function HomeActivities() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-serif font-bold text-[#002D62] text-lg mb-3 group-hover:text-[#D32F2F] transition-colors">
-                    {a.title}
+                    {getField(a, 'title')}
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed mb-5">
-                    {a.description}
+                    {getField(a, 'description')}
                   </p>
                   <Link
-                    href={a.href || "#"}
+                    href={`/${lang}/activites/${a.slug}`}
                     className="text-xs font-bold uppercase tracking-wider text-[#D32F2F] hover:text-[#002D62] transition-colors inline-flex items-center gap-1"
                   >
-                    En savoir plus &rarr;
+                    {t.learnMore} &rarr;
                   </Link>
                 </div>
               </div>
@@ -67,10 +88,10 @@ export default async function HomeActivities() {
 
         <div className="text-center mt-10">
           <Link
-            href="/activites"
+            href={`/${lang}/activites`}
             className="inline-flex items-center gap-2 border-2 border-[#002D62] text-[#002D62] hover:bg-[#002D62] hover:text-white font-semibold text-sm uppercase tracking-wider px-8 py-3 rounded transition-colors"
           >
-            Toutes nos activités
+            {t.allActivities}
           </Link>
         </div>
       </div>
