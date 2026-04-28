@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import {
@@ -31,8 +31,6 @@ interface Document {
   featured?: boolean
 }
 
-
-
 const getCategories = (documents: Document[]) => [
   { id: "tous", label: "Tous les documents", icon: <FileText size={15} />, count: documents.length },
   { id: "rapports", label: "Rapports annuels", icon: <FileBarChart2 size={15} />, count: documents.filter(d => d.category === "rapports").length },
@@ -49,9 +47,9 @@ const formatColors: Record<string, string> = {
 
 const langLabels: Record<string, string> = { FR: "Français", EN: "English", SW: "Swahili" }
 
-/* ─── PAGE ─────────────────────────────────────────────────── */
+/* ─── PAGE CONTENT ─────────────────────────────────────────── */
 
-export default function DocumentsPage() {
+function DocumentsContent() {
   const searchParams = useSearchParams()
   const [activeCategory, setActiveCategory] = useState<DocCategory>("tous")
   const [searchQuery, setSearchQuery] = useState("")
@@ -322,5 +320,15 @@ export default function DocumentsPage() {
 
       <Footer />
     </>
+  )
+}
+
+/* ─── PAGE EXPORT ─────────────────────────────────────────── */
+
+export default function DocumentsPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <DocumentsContent />
+    </Suspense>
   )
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -11,8 +11,6 @@ import PageShell from "@/components/page-shell"
 import { fetchAPI } from "@/lib/api"
 
 /* ─── DATA ─────────────────────────────────────────────────── */
-
-
 
 const typeColors: Record<string, string> = {
   dialogue: "bg-[#002D62] text-white",
@@ -32,9 +30,9 @@ const typeLabels: Record<string, string> = {
 
 type Tab = "toutes" | "a-venir" | "calendrier"
 
-/* ─── PAGE ─────────────────────────────────────────────────── */
+/* ─── PAGE CONTENT ─────────────────────────────────────────── */
 
-export default function ActivitesPage() {
+function ActivitesContent() {
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState<Tab>("toutes")
   const [activities, setActivities] = useState<any[]>([])
@@ -346,5 +344,15 @@ export default function ActivitesPage() {
 
       <Footer />
     </>
+  )
+}
+
+/* ─── PAGE EXPORT ─────────────────────────────────────────── */
+
+export default function ActivitesPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <ActivitesContent />
+    </Suspense>
   )
 }
