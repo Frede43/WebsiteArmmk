@@ -105,15 +105,15 @@ export default function Navbar({ lang, dict }: { lang: string; dict: any }) {
           {/* Social Links */}
           <div className="flex items-center gap-1 sm:gap-2">
             {[
-              { icon: Facebook, href: config?.facebook_url, hideOnMobile: false },
-              { icon: Twitter, href: config?.twitter_url || "#", hideOnMobile: true },
-              { icon: Instagram, href: "#", hideOnMobile: true },
-              { icon: Youtube, href: config?.youtube_url, hideOnMobile: false },
+              { icon: Facebook, href: config?.facebook_url },
+              { icon: Twitter, href: config?.twitter_url || "#" },
+              { icon: Instagram, href: "#" },
+              { icon: Youtube, href: config?.youtube_url },
             ].map((social, i) => (
               <Link 
                 key={i} 
                 href={social.href || "#"} 
-                className={`w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 ${social.hideOnMobile ? 'hidden sm:flex' : 'flex'}`}
+                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300"
               >
                 <social.icon size={13} />
               </Link>
