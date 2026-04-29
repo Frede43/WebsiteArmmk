@@ -152,17 +152,17 @@ export default function Navbar({ lang, dict }: { lang: string; dict: any }) {
         <div className="max-w-[1440px] mx-auto px-6 h-full flex items-center justify-between gap-10">
           
           {/* Logo Section */}
-          <Link href={`/${lang}`} className="flex items-center gap-4 shrink-0 group">
-            <div className={`relative transition-all duration-500 ${scrolled ? 'w-16 h-16' : 'w-24 h-24'}`}>
+          <Link href={`/${lang}`} className="flex items-center gap-4 shrink-0 group mr-4">
+            <div className={`relative transition-all duration-500 flex items-center ${scrolled ? 'w-32 lg:w-40 xl:w-48 h-10' : 'w-40 lg:w-48 xl:w-60 h-12 xl:h-14'}`}>
               {config?.site_logo ? (
                 <Image 
                   src={getMediaUrl(config.site_logo)} 
                   alt={config?.site_name || "ARMMK"} 
                   fill 
-                  className="object-contain"
+                  className="object-contain object-left"
                 />
               ) : (
-                <div className="w-full h-full rounded-xl bg-gradient-to-br from-[#D32F2F] to-[#801010] flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#D32F2F] to-[#801010] flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
                   <span className="text-white font-serif font-extrabold text-2xl">A</span>
                 </div>
               )}
@@ -181,7 +181,7 @@ export default function Navbar({ lang, dict }: { lang: string; dict: any }) {
                 >
                   <Link
                     href={`/${lang}${link.href}`}
-                    className={`px-4 py-2 text-[12px] font-semibold tracking-wide transition-all duration-300 rounded-md
+                    className={`px-2 xl:px-3 py-2 text-[11px] xl:text-[12px] whitespace-nowrap font-semibold tracking-wide transition-all duration-300 rounded-md
                       ${isActive(link) ? 'text-white bg-white/10' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
                   >
                     {link.label}
