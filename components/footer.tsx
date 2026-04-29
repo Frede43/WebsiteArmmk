@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { MapPin, Mail, Phone, Facebook, Twitter, Youtube, ArrowRight } from "lucide-react"
+import { MapPin, Mail, Phone, Facebook, Twitter, Youtube, ArrowRight, Lock } from "lucide-react"
 import { fetchAPI, getMediaUrl } from "@/lib/api"
 
 interface FooterProps {
@@ -34,6 +34,7 @@ export default function Footer({ lang = 'fr' }: FooterProps) {
     resources: lang === 'en' ? 'Resources' : lang === 'es' ? 'Recursos' : 'Ressources',
     contactUs: lang === 'en' ? 'Contact Us' : lang === 'es' ? 'Contáctenos' : 'Nous contacter',
     rights: lang === 'en' ? 'All rights reserved.' : lang === 'es' ? 'Todos los derechos reservados.' : 'Tous droits réservés.',
+    admin: lang === 'en' ? 'Admin' : lang === 'es' ? 'Admin' : 'Admin',
     asbl: lang === 'en' ? 'Non-Profit Association' : lang === 'es' ? 'Asociación Sin Fines de Lucro' : 'Association Sans But Lucratif',
     madeWith: lang === 'en' ? 'Made with memory in Makobola, South Kivu' : lang === 'es' ? 'Hecho con memoria en Makobola, Kivu del Sur' : 'Fait avec mémoire à Makobola, Sud-Kivu',
   }
@@ -202,8 +203,22 @@ export default function Footer({ lang = 'fr' }: FooterProps) {
               {t.asbl}
             </p>
           </div>
-          <div className="text-white/20 text-[11px] font-medium flex items-center gap-1">
-            {t.madeWith} <span className="text-[#D32F2F] ml-1">♥</span>
+          <div className="flex items-center gap-6">
+            <div className="text-white/20 text-[11px] font-medium flex items-center gap-1">
+              {t.madeWith} <span className="text-[#D32F2F] ml-1">♥</span>
+            </div>
+            <a
+              href={process.env.NEXT_PUBLIC_BACKEND_URL
+                ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/admin/`
+                : "http://localhost:8000/admin/"}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={t.admin}
+              className="flex items-center gap-1.5 text-white/15 hover:text-white/50 text-[11px] font-medium transition-colors duration-300 group"
+            >
+              <Lock size={11} className="group-hover:text-[#D32F2F] transition-colors" />
+              <span>{t.admin}</span>
+            </a>
           </div>
         </div>
       </div>
