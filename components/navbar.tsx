@@ -56,10 +56,10 @@ export default function Navbar({ lang, dict }: { lang: string; dict: any }) {
   ]
 
   const overflowLinks: NavLink[] = [
-    { label: dict.gallery, href: "/galerie" },
-    { label: dict.documents, href: "/documents" },
-    { label: dict.partners, href: "/partenaires" },
-    { label: dict.contact, href: "/contact" },
+    { label: dict.gallery, href: "/galerie", is_overflow: true },
+    { label: dict.documents, href: "/documents", is_overflow: true },
+    { label: dict.partners, href: "/partenaires", is_overflow: true },
+    { label: dict.contact, href: "/contact", is_overflow: true },
   ]
 
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function Navbar({ lang, dict }: { lang: string; dict: any }) {
 
       {/* 2. MAIN NAVBAR */}
       <nav className={`transition-all duration-500 ${scrolled ? 'h-20 bg-black/80 backdrop-blur-xl shadow-2xl border-b border-white/10' : 'h-24 bg-black/10 backdrop-blur-sm'}`}>
-        <div className="max-w-[1440px] mx-auto px-6 h-full flex items-center justify-between gap-10">
+        <div className="max-w-[1440px] mx-auto px-6 h-full flex items-center justify-between gap-4 xl:gap-10">
           
           {/* Logo Section */}
           <Link href={`/${lang}`} className="flex items-center gap-4 shrink-0 group mr-4">
@@ -171,7 +171,7 @@ export default function Navbar({ lang, dict }: { lang: string; dict: any }) {
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center flex-1">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 xl:gap-2">
               {currentPrimaryLinks.map((link) => (
                 <div 
                   key={link.href} 
@@ -207,11 +207,40 @@ export default function Navbar({ lang, dict }: { lang: string; dict: any }) {
                   )}
                 </div>
               ))}
+
+              {/* Overflow Menu Dropdown */}
+              <div 
+                className="relative h-full py-4"
+                onMouseEnter={() => handleMouseEnter('more')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  className={`px-2 py-2 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-md flex items-center`}
+                >
+                  <MoreHorizontal size={20} />
+                </button>
+
+                {openDropdown === 'more' && (
+                  <div className="absolute top-full right-0 mt-1 w-56 animate-slide-up">
+                    <div className="bg-black/90 backdrop-blur-xl border border-white/10 p-2 rounded-xl shadow-2xl">
+                      {dynamicLinks.filter(l => l.is_overflow).map((link) => (
+                        <Link
+                          key={link.href}
+                          href={`/${lang}${link.href}`}
+                          className="block p-3 hover:bg-white/5 rounded-lg transition-all group"
+                        >
+                          <div className="text-white/90 text-[11px] font-bold uppercase tracking-widest group-hover:text-[#D32F2F]">{link.label}</div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
           {/* Action Icons */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Language Switcher Mobile (next to burger) */}
             <div className="flex lg:hidden items-center gap-2 mr-1 border-r border-white/10 pr-3">
                {['fr', 'en', 'es'].map((l) => (
