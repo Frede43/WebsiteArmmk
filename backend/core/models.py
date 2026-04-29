@@ -1,16 +1,16 @@
-from django.db import models
+﻿from django.db import models
 
 class HeroSlide(models.Model):
-    title = models.CharField(max_length=255)
-    title_en = models.CharField(max_length=255, blank=True, null=True)
-    title_es = models.CharField(max_length=255, blank=True, null=True)
+    title = models.CharField("Titre (FR)", max_length=255)
+    title_en = models.CharField("Titre (EN)", max_length=255, blank=True, null=True)
+    title_es = models.CharField("Titre (ES)", max_length=255, blank=True, null=True)
     
-    subtitle = models.TextField()
-    subtitle_en = models.TextField(blank=True, null=True)
-    subtitle_es = models.TextField(blank=True, null=True)
+    subtitle = models.TextField("Sous-titre (FR)")
+    subtitle_en = models.TextField("Sous-titre (EN)", blank=True, null=True)
+    subtitle_es = models.TextField("Sous-titre (ES)", blank=True, null=True)
     
-    image = models.ImageField(upload_to='hero_slides/', blank=True, null=True)
-    order = models.PositiveIntegerField(default=0)
+    image = models.ImageField("Image", upload_to='hero_slides/', blank=True, null=True)
+    order = models.PositiveIntegerField("Ordre d'affichage", default=0)
 
     class Meta:
         ordering = ['order']
@@ -21,43 +21,43 @@ class HeroSlide(models.Model):
         return self.title
 
 class Activity(models.Model):
-    slug = models.SlugField(unique=True, help_text="URL unique de l'activité")
+    slug = models.SlugField(unique=True, help_text="URL unique de l'activitÃ©")
     
-    title = models.CharField(max_length=200)
-    title_en = models.CharField(max_length=200, blank=True, null=True)
-    title_es = models.CharField(max_length=200, blank=True, null=True)
+    title = models.CharField("Titre (FR)", max_length=200)
+    title_en = models.CharField("Titre (EN)", max_length=200, blank=True, null=True)
+    title_es = models.CharField("Titre (ES)", max_length=200, blank=True, null=True)
     
-    short_desc = models.CharField(max_length=255, help_text="Description courte")
-    short_desc_en = models.CharField(max_length=255, blank=True, null=True)
-    short_desc_es = models.CharField(max_length=255, blank=True, null=True)
+    short_desc = models.CharField("Description courte (FR)", max_length=255, help_text="Description courte")
+    short_desc_en = models.CharField("Description courte (EN)", max_length=255, blank=True, null=True)
+    short_desc_es = models.CharField("Description courte (ES)", max_length=255, blank=True, null=True)
     
-    description = models.TextField()
-    description_en = models.TextField(blank=True, null=True)
-    description_es = models.TextField(blank=True, null=True)
+    description = models.TextField("Description complÃ¨te (FR)")
+    description_en = models.TextField("Description complÃ¨te (EN)", blank=True, null=True)
+    description_es = models.TextField("Description complÃ¨te (ES)", blank=True, null=True)
     
-    icon = models.CharField(max_length=50, help_text="Nom de l'icône Lucide (ex: MessageCircle)")
-    color = models.CharField(max_length=20, help_text="Code couleur hex (ex: #002D62)")
+    icon = models.CharField("IcÃ´ne (Lucide)", max_length=50, help_text="Nom de l'icÃ´ne Lucide (ex: MessageCircle)")
+    color = models.CharField("Couleur", max_length=20, help_text="Code couleur hex (ex: #002D62)")
     
-    tag = models.CharField(max_length=50)
-    tag_en = models.CharField(max_length=50, blank=True, null=True)
-    tag_es = models.CharField(max_length=50, blank=True, null=True)
+    tag = models.CharField("Ã‰tiquette (FR)", max_length=50)
+    tag_en = models.CharField("Ã‰tiquette (EN)", max_length=50, blank=True, null=True)
+    tag_es = models.CharField("Ã‰tiquette (ES)", max_length=50, blank=True, null=True)
     
-    next_event = models.CharField(max_length=150, blank=True, null=True, help_text="Texte libre indiquant la date du prochain événement")
-    next_event_en = models.CharField(max_length=150, blank=True, null=True)
-    next_event_es = models.CharField(max_length=150, blank=True, null=True)
+    next_event = models.CharField("Prochain Ã©vÃ©nement (FR)", max_length=150, blank=True, null=True, help_text="Texte libre indiquant la date du prochain Ã©vÃ©nement")
+    next_event_en = models.CharField("Prochain Ã©vÃ©nement (EN)", max_length=150, blank=True, null=True)
+    next_event_es = models.CharField("Prochain Ã©vÃ©nement (ES)", max_length=150, blank=True, null=True)
     
-    location = models.CharField(max_length=200)
-    location_en = models.CharField(max_length=200, blank=True, null=True)
-    location_es = models.CharField(max_length=200, blank=True, null=True)
+    location = models.CharField("Lieu (FR)", max_length=200)
+    location_en = models.CharField("Lieu (EN)", max_length=200, blank=True, null=True)
+    location_es = models.CharField("Lieu (ES)", max_length=200, blank=True, null=True)
     
-    participants = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='activities/', blank=True, null=True)
-    video_url = models.URLField(blank=True, null=True, help_text="Lien YouTube ou Vimeo (ex: https://www.youtube.com/watch?v=...)")
-    achievements = models.JSONField(default=list, help_text="Liste des réalisations (format JSON)") 
+    participants = models.PositiveIntegerField("Nombre de participants", default=0)
+    image = models.ImageField("Image de couverture", upload_to='activities/', blank=True, null=True)
+    video_url = models.URLField("Lien VidÃ©o", blank=True, null=True, help_text="Lien YouTube ou Vimeo (ex: https://www.youtube.com/watch?v=...)")
+    achievements = models.JSONField("RÃ©alisations (JSON)", default=list, help_text="Liste des rÃ©alisations (format JSON)") 
 
     class Meta:
-        verbose_name = "Activité"
-        verbose_name_plural = "Activités"
+        verbose_name = "ActivitÃ©"
+        verbose_name_plural = "ActivitÃ©s"
 
     def __str__(self):
         return self.title
@@ -67,7 +67,7 @@ class Event(models.Model):
         ('dialogue', 'Dialogue'),
         ('formation', 'Formation'),
         ('soutien', 'Soutien'),
-        ('commemoration', 'Commémoration'),
+        ('commemoration', 'CommÃ©moration'),
         ('gouvernance', 'Gouvernance'),
     )
     title = models.CharField(max_length=200)
@@ -93,8 +93,8 @@ class Event(models.Model):
 
     class Meta:
         ordering = ['date']
-        verbose_name = "Événement"
-        verbose_name_plural = "Événements"
+        verbose_name = "Ã‰vÃ©nement"
+        verbose_name_plural = "Ã‰vÃ©nements"
 
     def __str__(self):
         return f"{self.title} - {self.date.strftime('%d/%m/%Y')}"
@@ -103,7 +103,7 @@ class Album(models.Model):
     title = models.CharField(max_length=200)
     title_en = models.CharField(max_length=200, blank=True, null=True)
     title_es = models.CharField(max_length=200, blank=True, null=True)
-    year = models.IntegerField(help_text="Année de l'album")
+    year = models.IntegerField(help_text="AnnÃ©e de l'album")
     order = models.PositiveIntegerField(default=0)
     
     class Meta:
@@ -133,255 +133,40 @@ class Video(models.Model):
 
     class Meta:
         ordering = ['order']
-        verbose_name = "Vidéo Galerie"
-        verbose_name_plural = "Vidéos Galerie"
+        verbose_name = "VidÃ©o Galerie"
+        verbose_name_plural = "VidÃ©os Galerie"
 
 class Article(models.Model):
-    slug = models.SlugField(unique=True)
-    
-    title = models.CharField(max_length=200)
-    title_en = models.CharField(max_length=200, blank=True, null=True)
-    title_es = models.CharField(max_length=200, blank=True, null=True)
-    
-    category = models.CharField(max_length=100, help_text="Catégorie affichée (ex: Mémoire)")
-    category_en = models.CharField(max_length=100, blank=True, null=True)
-    category_es = models.CharField(max_length=100, blank=True, null=True)
-    
-    tag = models.CharField(max_length=50, help_text="Sert uniquement aux couleurs, ex: commemoration, formation")
-    date = models.DateField()
-    
-    image = models.ImageField(upload_to='articles/', blank=True, null=True)
-    video_url = models.URLField(blank=True, null=True, help_text="Lien YouTube ou Vimeo (ex: https://www.youtube.com/watch?v=...)")
-    
-    excerpt = models.TextField(help_text="Extrait visible sur la carte")
-    excerpt_en = models.TextField(blank=True, null=True)
-    excerpt_es = models.TextField(blank=True, null=True)
-    
-    content = models.TextField(help_text="Contenu complet de l'article")
-    content_en = models.TextField(blank=True, null=True)
-    content_es = models.TextField(blank=True, null=True)
-    
-    image = models.ImageField(upload_to='articles/', blank=True, null=True)
+    slug = models.SlugField('Slug (URL)', unique=True)
+
+    title = models.CharField('Titre (FR)', max_length=200)
+    title_en = models.CharField('Titre (EN)', max_length=200, blank=True, null=True)
+    title_es = models.CharField('Titre (ES)', max_length=200, blank=True, null=True)
+
+    category = models.CharField('Catégorie (FR)', max_length=100, help_text='Catégorie affichée (ex: Mémoire)')
+    category_en = models.CharField('Catégorie (EN)', max_length=100, blank=True, null=True)
+    category_es = models.CharField('Catégorie (ES)', max_length=100, blank=True, null=True)
+
+    tag = models.CharField('Étiquette (Couleur)', max_length=50, help_text='Sert uniquement aux couleurs, ex: commemoration, formation')
+    date = models.DateField('Date de publication')
+
+    image = models.ImageField('Image', upload_to='articles/', blank=True, null=True)
+    video_url = models.URLField('Lien Vidéo', blank=True, null=True, help_text='Lien YouTube ou Vimeo (ex: https://www.youtube.com/watch?v=...)')
+
+    excerpt = models.TextField('Extrait (FR)', help_text='Extrait visible sur la carte')
+    excerpt_en = models.TextField('Extrait (EN)', blank=True, null=True)
+    excerpt_es = models.TextField('Extrait (ES)', blank=True, null=True)
+
+    content = models.TextField('Contenu complet (FR)', help_text='Contenu complet de l\'article')
+    content_en = models.TextField('Contenu complet (EN)', blank=True, null=True)
+    content_es = models.TextField('Contenu complet (ES)', blank=True, null=True)
 
     class Meta:
-        ordering = ['-date']
-        verbose_name = "Article / Actualité"
-        verbose_name_plural = "Articles / Actualités"
+        verbose_name = 'Article'
+        verbose_name_plural = 'Articles'
 
     def __str__(self):
         return self.title
-
-class Story(models.Model):
-    name = models.CharField(max_length=150, help_text="Nom du témoin")
-    age = models.CharField(max_length=10, blank=True)
-    
-    role = models.CharField(max_length=100, blank=True)
-    role_en = models.CharField(max_length=100, blank=True, null=True)
-    role_es = models.CharField(max_length=100, blank=True, null=True)
-    
-    image = models.ImageField(upload_to='stories/', blank=True, null=True)
-    
-    teaser = models.CharField(max_length=255, help_text="Citation courte d'accroche")
-    teaser_en = models.CharField(max_length=255, blank=True, null=True)
-    teaser_es = models.CharField(max_length=255, blank=True, null=True)
-    
-    excerpt = models.TextField(help_text="Extrait pour la carte")
-    excerpt_en = models.TextField(blank=True, null=True)
-    excerpt_es = models.TextField(blank=True, null=True)
-    
-    full_text = models.TextField(help_text="Témoignage complet")
-    full_text_en = models.TextField(blank=True, null=True)
-    full_text_es = models.TextField(blank=True, null=True)
-
-    class Meta:
-        verbose_name = "Témoignage"
-        verbose_name_plural = "Témoignages"
-
-    def __str__(self):
-        return f"Témoignage de {self.name}"
-
-class TeamMember(models.Model):
-    name = models.CharField(max_length=150)
-    initials = models.CharField(max_length=10)
-    role = models.CharField(max_length=200)
-    role_en = models.CharField(max_length=200, blank=True, null=True)
-    role_es = models.CharField(max_length=200, blank=True, null=True)
-    image = models.ImageField(upload_to='team/', blank=True, null=True)
-    order = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ['order']
-        verbose_name = "Membre de l'équipe"
-        verbose_name_plural = "Membres de l'équipe"
-
-    def __str__(self):
-        return self.name
-
-class ProgrammeItem(models.Model):
-    time = models.CharField(max_length=100, help_text="Horaire direct (ex: 10h00 - 12h00)")
-    event = models.CharField(max_length=255, help_text="Titre de la session")
-    event_en = models.CharField(max_length=255, blank=True, null=True)
-    event_es = models.CharField(max_length=255, blank=True, null=True)
-    order = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ['order']
-        verbose_name = "Point du Programme"
-        verbose_name_plural = "Programme des commémorations"
-
-class PastEdition(models.Model):
-    year = models.CharField(max_length=4)
-    count = models.PositiveIntegerField(help_text="Nombre de participants")
-    highlight = models.TextField(help_text="Fait marquant de l'édition")
-    highlight_en = models.TextField(blank=True, null=True)
-    highlight_es = models.TextField(blank=True, null=True)
-
-    class Meta:
-        ordering = ['-year']
-        verbose_name = "Édition passée"
-        verbose_name_plural = "Éditions passées"
-
-class SupportForm(models.Model):
-    title = models.CharField(max_length=100)
-    title_en = models.CharField(max_length=100, blank=True, null=True)
-    title_es = models.CharField(max_length=100, blank=True, null=True)
-    description = models.TextField()
-    description_en = models.TextField(blank=True, null=True)
-    description_es = models.TextField(blank=True, null=True)
-    icon_name = models.CharField(max_length=50, help_text="Nom lucide-react (ex: HandHeart)")
-    order = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ['order']
-        verbose_name = "Forme de Soutien"
-        verbose_name_plural = "Formes de Soutien"
-
-class PaymentMethod(models.Model):
-    label = models.CharField(max_length=100)
-    label_en = models.CharField(max_length=100, blank=True, null=True)
-    label_es = models.CharField(max_length=100, blank=True, null=True)
-    detail = models.CharField(max_length=200)
-    detail_en = models.CharField(max_length=200, blank=True, null=True)
-    detail_es = models.CharField(max_length=200, blank=True, null=True)
-    icon_name = models.CharField(max_length=50)
-    order = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ['order']
-        verbose_name = "Méthode de paiement"
-        verbose_name_plural = "Méthodes de paiement"
-
-class SiteConfiguration(models.Model):
-    site_name = models.CharField(max_length=100, default="ARMMK")
-    site_logo = models.ImageField(upload_to='settings/', blank=True, null=True)
-    about_text = models.TextField(blank=True, help_text="Texte d'à propos global (footer/home)")
-    about_text_en = models.TextField(blank=True, null=True)
-    about_text_es = models.TextField(blank=True, null=True)
-    
-    # Page À Propos
-    about_history_title = models.CharField(max_length=255, blank=True, default="Née de la douleur, portée par la dignité")
-    about_history_title_en = models.CharField(max_length=255, blank=True, null=True)
-    about_history_title_es = models.CharField(max_length=255, blank=True, null=True)
-    
-    about_history_content = models.TextField(blank=True)
-    about_history_content_en = models.TextField(blank=True, null=True)
-    about_history_content_es = models.TextField(blank=True, null=True)
-    
-    about_history_image = models.ImageField(upload_to='about/', blank=True, null=True)
-    
-    mission_text = models.TextField(blank=True)
-    mission_text_en = models.TextField(blank=True, null=True)
-    mission_text_es = models.TextField(blank=True, null=True)
-    
-    vision_text = models.TextField(blank=True)
-    vision_text_en = models.TextField(blank=True, null=True)
-    vision_text_es = models.TextField(blank=True, null=True)
-
-    # Page Massacre
-    massacre_intro_title = models.CharField(max_length=255, blank=True, default="Un crime contre l'humanité en plein cœur du Congo")
-    massacre_intro_title_en = models.CharField(max_length=255, blank=True, null=True)
-    massacre_intro_title_es = models.CharField(max_length=255, blank=True, null=True)
-    
-    massacre_intro_content = models.TextField(blank=True)
-    massacre_intro_content_en = models.TextField(blank=True, null=True)
-    massacre_intro_content_es = models.TextField(blank=True, null=True)
-    
-    massacre_intro_image = models.ImageField(upload_to='massacre/', blank=True, null=True)
-
-    contact_email = models.EmailField(default="contact@armmk.org")
-    contact_phone = models.CharField(max_length=50, blank=True)
-    address = models.CharField(max_length=255, blank=True)
-    
-    map_latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    map_longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    
-    facebook_url = models.URLField(blank=True)
-    twitter_url = models.URLField(blank=True)
-    youtube_url = models.URLField(blank=True)
-
-    class Meta:
-        verbose_name = "Configuration du Site"
-        verbose_name_plural = "Configuration du Site"
-
-    def save(self, *args, **kwargs):
-        if not self.pk and SiteConfiguration.objects.exists():
-            return
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return "Paramètres Généraux du Site"
-
-class ContactMessage(models.Model):
-    first_name = models.CharField(max_length=100, verbose_name="Prénom")
-    last_name = models.CharField(max_length=100, blank=True, verbose_name="Nom")
-    email = models.EmailField()
-    subject = models.CharField(max_length=200, blank=True, verbose_name="Sujet")
-    message = models.TextField()
-    is_read = models.BooleanField(default=False, verbose_name="Lu ?")
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-created_at']
-        verbose_name = "Message de Contact"
-        verbose_name_plural = "Messages de Contact"
-
-    def __str__(self):
-        return f"Message de {self.first_name} ({self.created_at.strftime('%d/%m/%Y')})"
-
-class DonationIntent(models.Model):
-    first_name = models.CharField(max_length=100, verbose_name="Prénom et nom")
-    email = models.EmailField()
-    amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Montant ($)")
-    is_monthly = models.BooleanField(default=False, verbose_name="Don Mensuel ?")
-    status = models.CharField(max_length=50, default='pending', choices=(
-        ('pending', 'En attente'),
-        ('contacted', 'Contacté / En cours'),
-        ('completed', 'Finalisé'),
-    ), verbose_name="Statut")
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-created_at']
-        verbose_name = "Promesse de Don"
-        verbose_name_plural = "Promesses de Don"
-
-    def __str__(self):
-        return f"Promesse de {self.amount}$ par {self.first_name}"
-
-class TestimonySubmission(models.Model):
-    name = models.CharField(max_length=200, verbose_name="Nom et Prénom")
-    contact_info = models.CharField(max_length=200, blank=True, verbose_name="Contact")
-    relation = models.CharField(max_length=100, verbose_name="Lien avec le massacre")
-    message = models.TextField(verbose_name="Témoignage")
-    is_reviewed = models.BooleanField(default=False, verbose_name="Validé ?")
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = "Soumission de Témoignage"
-        verbose_name_plural = "Soumissions de Témoignages"
-
-    def __str__(self):
-        return f"Témoignage reçu de {self.name}"
 
 class Value(models.Model):
     label = models.CharField(max_length=100)
@@ -390,7 +175,7 @@ class Value(models.Model):
     desc = models.TextField()
     desc_en = models.TextField(blank=True, null=True)
     desc_es = models.TextField(blank=True, null=True)
-    icon_name = models.CharField(max_length=50, default="Heart", help_text="Nom de l'icône (ex: Heart, Scale, Handshake, Shield)")
+    icon_name = models.CharField(max_length=50, default="Heart", help_text="Nom de l'icÃ´ne (ex: Heart, Scale, Handshake, Shield)")
     order = models.PositiveIntegerField(default=0)
     class Meta:
         ordering = ['order']
@@ -402,33 +187,33 @@ class Value(models.Model):
 class Document(models.Model):
     CATEGORY_CHOICES = [
         ('rapports', 'Rapports annuels'),
-        ('communiques', 'Communiqués'),
+        ('communiques', 'CommuniquÃ©s'),
         ('archives', 'Archives historiques'),
-        ('ressources', 'Ressources pédagogiques'),
+        ('ressources', 'Ressources pÃ©dagogiques'),
     ]
     FORMAT_CHOICES = [('PDF', 'PDF'), ('DOC', 'DOC'), ('XLSX', 'XLSX')]
-    LANGUAGE_CHOICES = [('FR', 'Français'), ('EN', 'English'), ('SW', 'Swahili')]
+    LANGUAGE_CHOICES = [('FR', 'FranÃ§ais'), ('EN', 'English'), ('SW', 'Swahili')]
 
-    title = models.CharField(max_length=255)
-    title_en = models.CharField(max_length=255, blank=True, null=True)
-    title_es = models.CharField(max_length=255, blank=True, null=True)
+    title = models.CharField("Titre (FR)", max_length=255)
+    title_en = models.CharField("Titre (EN)", max_length=255, blank=True, null=True)
+    title_es = models.CharField("Titre (ES)", max_length=255, blank=True, null=True)
     
-    description = models.TextField()
-    description_en = models.TextField(blank=True, null=True)
-    description_es = models.TextField(blank=True, null=True)
+    description = models.TextField("Description (FR)")
+    description_en = models.TextField("Description (EN)", blank=True, null=True)
+    description_es = models.TextField("Description (ES)", blank=True, null=True)
     
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    category_en = models.CharField(max_length=20, blank=True, null=True)
-    category_es = models.CharField(max_length=20, blank=True, null=True)
-    date = models.CharField(max_length=50) 
-    size = models.CharField(max_length=20) 
-    pages = models.PositiveIntegerField()
-    format = models.CharField(max_length=10, choices=FORMAT_CHOICES)
-    language = models.CharField(max_length=10, choices=LANGUAGE_CHOICES)
-    file = models.FileField(upload_to='documents/', blank=True, null=True)
-    downloadUrl = models.URLField(blank=True, help_text="Lien externe (si pas de fichier)")
-    featured = models.BooleanField(default=False)
-    order = models.PositiveIntegerField(default=0)
+    category = models.CharField("CatÃ©gorie (FR)", max_length=20, choices=CATEGORY_CHOICES)
+    category_en = models.CharField("CatÃ©gorie (EN)", max_length=20, blank=True, null=True)
+    category_es = models.CharField("CatÃ©gorie (ES)", max_length=20, blank=True, null=True)
+    date = models.CharField("Date / AnnÃ©e", max_length=50) 
+    size = models.CharField("Taille du fichier", max_length=20) 
+    pages = models.PositiveIntegerField("Nombre de pages")
+    format = models.CharField("Format", max_length=10, choices=FORMAT_CHOICES)
+    language = models.CharField("Langue du document", max_length=10, choices=LANGUAGE_CHOICES)
+    file = models.FileField("Fichier", upload_to='documents/', blank=True, null=True)
+    downloadUrl = models.URLField("Lien de tÃ©lÃ©chargement", blank=True, help_text="Lien externe (si pas de fichier)")
+    featured = models.BooleanField("Mis en avant", default=False)
+    order = models.PositiveIntegerField("Ordre d'affichage", default=0)
 
     class Meta:
         ordering = ['-featured', 'order', '-id']
@@ -438,7 +223,7 @@ class Document(models.Model):
         return self.title
 
 class TimelineEvent(models.Model):
-    date = models.CharField(max_length=50, help_text="Ex: 30 DÉC. 1998")
+    date = models.CharField(max_length=50, help_text="Ex: 30 DÃ‰C. 1998")
     title = models.CharField(max_length=255)
     title_en = models.CharField(max_length=255, blank=True, null=True)
     title_es = models.CharField(max_length=255, blank=True, null=True)
@@ -448,7 +233,7 @@ class TimelineEvent(models.Model):
     order = models.PositiveIntegerField(default=0)
     class Meta:
         ordering = ['order']
-        verbose_name = "Evènement Chronologique"
+        verbose_name = "EvÃ¨nement Chronologique"
         verbose_name_plural = "Frise Chronologique (Massacre)"
     def __str__(self):
         return self.title
@@ -499,7 +284,7 @@ class CommemorationSection(models.Model):
     description_en = models.TextField(blank=True, null=True)
     description_es = models.TextField(blank=True, null=True)
     
-    date_text = models.CharField(max_length=100, help_text="Ex: 30 Décembre 2025 – 2 Janvier 2026")
+    date_text = models.CharField(max_length=100, help_text="Ex: 30 DÃ©cembre 2025 â€“ 2 Janvier 2026")
     date_text_en = models.CharField(max_length=100, blank=True, null=True)
     date_text_es = models.CharField(max_length=100, blank=True, null=True)
     
@@ -508,14 +293,14 @@ class CommemorationSection(models.Model):
     location_es = models.CharField(max_length=200, blank=True, null=True)
     
     countdown_day = models.CharField(max_length=10, help_text="Ex: 30")
-    countdown_month_year = models.CharField(max_length=100, help_text="Ex: Décembre 2026")
+    countdown_month_year = models.CharField(max_length=100, help_text="Ex: DÃ©cembre 2026")
     countdown_month_year_en = models.CharField(max_length=100, blank=True, null=True)
     countdown_month_year_es = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField(upload_to='commemoration/', blank=True, null=True)
 
     class Meta:
-        verbose_name = "Section Commémoration (Accueil)"
-        verbose_name_plural = "Section Commémoration (Accueil)"
+        verbose_name = "Section CommÃ©moration (Accueil)"
+        verbose_name_plural = "Section CommÃ©moration (Accueil)"
     def __str__(self):
         return self.title
 
@@ -547,7 +332,7 @@ class NavLink(models.Model):
     description = models.CharField(max_length=255, blank=True)
     description_en = models.CharField(max_length=255, blank=True, null=True)
     description_es = models.CharField(max_length=255, blank=True, null=True)
-    is_overflow = models.BooleanField(default=False, help_text="Affiché dans le menu 'Plus'")
+    is_overflow = models.BooleanField(default=False, help_text="AffichÃ© dans le menu 'Plus'")
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -558,11 +343,11 @@ class NavLink(models.Model):
         return self.label
 
 class MemorialSite(models.Model):
-    badge = models.CharField(max_length=100, default="Lieu de mémoire")
+    badge = models.CharField(max_length=100, default="Lieu de mÃ©moire")
     badge_en = models.CharField(max_length=100, blank=True, null=True)
     badge_es = models.CharField(max_length=100, blank=True, null=True)
     
-    title = models.CharField(max_length=255, default="Le site mémorial de Makobola")
+    title = models.CharField(max_length=255, default="Le site mÃ©morial de Makobola")
     title_en = models.CharField(max_length=255, blank=True, null=True)
     title_es = models.CharField(max_length=255, blank=True, null=True)
     
@@ -577,8 +362,8 @@ class MemorialSite(models.Model):
     image = models.ImageField(upload_to='memorial/', blank=True, null=True)
 
     class Meta:
-        verbose_name = "Lieu de Mémoire"
-        verbose_name_plural = "Lieu de Mémoire"
+        verbose_name = "Lieu de Memoire"
+        verbose_name_plural = "Lieu de Memoire"
 
     def save(self, *args, **kwargs):
         if not self.pk and MemorialSite.objects.exists():
@@ -602,4 +387,5 @@ class DonationImpact(models.Model):
 
     def __str__(self):
         return f"{self.amount} - {self.impact}"
+
 

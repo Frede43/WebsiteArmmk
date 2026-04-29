@@ -1,19 +1,33 @@
 from django.contrib import admin
 from .models import *
+from .translation_utils import auto_translate_obj
+
+def make_translate_action(fields):
+    def translate_action(modeladmin, request, queryset):
+        count = 0
+        for obj in queryset:
+            if auto_translate_obj(obj, fields):
+                count += 1
+        modeladmin.message_user(request, f"{count} éléments ont été traduits automatiquement.")
+    translate_action.short_description = "Traduire automatiquement (FR -> EN, ES)"
+    return translate_action
 
 @admin.register(HeroSlide)
 class HeroSlideAdmin(admin.ModelAdmin):
     list_display = ('title', 'order')
+    actions = [make_translate_action(['title', 'subtitle'])]
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
     list_display = ('title', 'tag', 'participants')
     prepopulated_fields = {'slug': ('title',)}
+    actions = [make_translate_action(['title', 'short_desc', 'description', 'tag', 'next_event', 'location'])]
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'type', 'date', 'location')
     list_filter = ('type', 'date')
+    actions = [make_translate_action(['title', 'description', 'time', 'location'])]
 
 class PhotoInline(admin.TabularInline):
     model = Photo
@@ -32,6 +46,7 @@ class AlbumAdmin(admin.ModelAdmin):
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'date')
     prepopulated_fields = {'slug': ('title',)}
+    actions = [make_translate_action(['title', 'category', 'excerpt', 'content'])]
 
 @admin.register(Story)
 class StoryAdmin(admin.ModelAdmin):

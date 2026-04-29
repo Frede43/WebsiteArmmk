@@ -9,7 +9,6 @@ import * as Icons from "lucide-react"
 import Footer from "@/components/footer"
 import PageShell from "@/components/page-shell"
 import { getActivities } from "@/lib/api"
-import { notFound } from "next/navigation"
 
 const getEmbedUrl = (url: string) => {
   if (!url) return "";
