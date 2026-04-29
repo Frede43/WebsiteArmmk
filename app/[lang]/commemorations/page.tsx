@@ -15,6 +15,7 @@ export default async function CommemorationsPage({ params }: { params: Promise<{
   const programme = await fetchAPI('/programme/') || [];
   const pastEditions = await fetchAPI('/past-editions/') || [];
   const commemSection = await fetchAPI('/commemoration-section/');
+  const memorialSite = await fetchAPI('/memorial-site/');
 
   const getField = (obj: any, field: string) => {
     if (!obj) return ""
@@ -117,19 +118,19 @@ export default async function CommemorationsPage({ params }: { params: Promise<{
       <section className="py-16 bg-[#002D62]">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div className="relative h-64 lg:h-80 rounded-lg overflow-hidden">
-            <Image src="/images/memorial-site.jpg" alt="Memorial" fill className="object-cover" />
+            <Image src={memorialSite?.image ? getMediaUrl(memorialSite.image) : "/images/memorial-site.jpg"} alt={getField(memorialSite, 'title') || "Memorial"} fill className="object-cover" />
           </div>
           <div className="text-white">
             <span className="text-xs font-bold uppercase tracking-widest text-[#D32F2F] mb-3 block">
-              {t.memorialBadge}
+              {getField(memorialSite, 'badge') || t.memorialBadge}
             </span>
-            <h3 className="font-serif text-2xl font-bold mb-4">{t.memorialTitle}</h3>
-            <p className="text-white/70 text-sm leading-relaxed mb-5">
-              {t.memorialDesc}
+            <h3 className="font-serif text-2xl font-bold mb-4">{getField(memorialSite, 'title') || t.memorialTitle}</h3>
+            <p className="text-white/70 text-sm leading-relaxed mb-5 whitespace-pre-line">
+              {getField(memorialSite, 'description') || t.memorialDesc}
             </p>
             <div className="flex items-center gap-2 text-sm text-white/60">
               <MapPin size={14} className="text-[#D32F2F]" />
-              <span>{lang === 'en' ? 'Makobola, Fizi Territory, South Kivu, DRC' : 'Makobola, Territoire de Fizi, Sud-Kivu, RDC'}</span>
+              <span>{getField(memorialSite, 'location') || (lang === 'en' ? 'Makobola, Fizi Territory, South Kivu, DRC' : 'Makobola, Territoire de Fizi, Sud-Kivu, RDC')}</span>
             </div>
           </div>
         </div>

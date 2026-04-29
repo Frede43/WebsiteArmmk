@@ -15,6 +15,7 @@ function SoutenirContent({ lang }: { lang: string }) {
   const [sent, setSent] = useState(false)
   const [supports, setSupports] = useState<any[]>([])
   const [paymentMethods, setPaymentMethods] = useState<any[]>([])
+  const [impacts, setImpacts] = useState<any[]>([])
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [isMonthly, setIsMonthly] = useState(false)
@@ -49,6 +50,9 @@ function SoutenirContent({ lang }: { lang: string }) {
     })
     fetchAPI('/payment-methods/').then(data => {
       if(data) setPaymentMethods(data)
+    })
+    fetchAPI('/donation-impacts/').then(data => {
+      if(data && data.length > 0) setImpacts(data)
     })
   }, [])
   
@@ -269,10 +273,10 @@ function SoutenirContent({ lang }: { lang: string }) {
             <h3 className="font-serif text-2xl font-bold text-white">{t.impactTitle}</h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-            {t.impacts.map((i) => (
-              <div key={i.amount} className="bg-white/5 border border-white/10 rounded-lg p-6">
+            {(impacts.length > 0 ? impacts : t.impacts).map((i: any, index: number) => (
+              <div key={i.id || i.amount || index} className="bg-white/5 border border-white/10 rounded-lg p-6">
                 <p className="font-serif text-3xl font-bold text-[#D32F2F] mb-2">{i.amount}</p>
-                <p className="text-white/70 text-sm leading-relaxed">{i.impact}</p>
+                <p className="text-white/70 text-sm leading-relaxed">{getField(i, 'impact') || i.impact}</p>
               </div>
             ))}
           </div>

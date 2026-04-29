@@ -25,10 +25,12 @@ router.register(r'partners', PartnerViewSet, basename='partners')
 router.register(r'stats', StatisticViewSet, basename='stats')
 router.register(r'cta-actions', HomeCTAActionViewSet, basename='ctaactions')
 router.register(r'nav-links', NavLinkViewSet, basename='navlinks')
+router.register(r'donation-impacts', DonationImpactViewSet, basename='donationimpacts')
 
 urlpatterns = [
     path('', include(router.urls)),
     path('calendar/', CalendarView.as_view(), name='calendar'),
     path('config/', SiteConfigurationView.as_view(), name='config'),
     path('commemoration-section/', CommemorationSectionView.as_view(), name='commemoration-section'),
+    path('memorial-site/', MemorialSiteView.as_view(), name='memorial-site'),
 ]

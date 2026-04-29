@@ -158,3 +158,14 @@ class NavLinkSerializer(serializers.ModelSerializer):
         if obj.children.exists():
             return NavLinkSerializer(obj.children.all(), many=True).data
         return None
+
+
+class MemorialSiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MemorialSite
+        fields = '__all__'
+
+class DonationImpactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DonationImpact
+        fields = '__all__'

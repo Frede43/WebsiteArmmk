@@ -74,7 +74,7 @@ class TestimonySubmissionAdmin(admin.ModelAdmin):
 
 @admin.register(Value)
 class ValueAdmin(admin.ModelAdmin):
-    list_display = ('label', 'order')
+    list_display = ('label', 'icon_name', 'order')
 
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
@@ -105,3 +105,13 @@ class HomeCTAActionAdmin(admin.ModelAdmin):
 class NavLinkAdmin(admin.ModelAdmin):
     list_display = ('label', 'href', 'parent', 'is_overflow', 'order')
     list_filter = ('parent', 'is_overflow')
+
+@admin.register(MemorialSite)
+class MemorialSiteAdmin(admin.ModelAdmin):
+    list_display = ('title', 'location')
+
+@admin.register(DonationImpact)
+class DonationImpactAdmin(admin.ModelAdmin):
+    list_display = ('amount', 'impact', 'order')
+
+

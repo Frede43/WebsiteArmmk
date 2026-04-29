@@ -375,6 +375,7 @@ class Value(models.Model):
     desc = models.TextField()
     desc_en = models.TextField(blank=True, null=True)
     desc_es = models.TextField(blank=True, null=True)
+    icon_name = models.CharField(max_length=50, default="Heart", help_text="Nom de l'icône (ex: Heart, Scale, Handshake, Shield)")
     order = models.PositiveIntegerField(default=0)
     class Meta:
         ordering = ['order']
@@ -540,3 +541,50 @@ class NavLink(models.Model):
         verbose_name_plural = "Liens de Navigation"
     def __str__(self):
         return self.label
+
+class MemorialSite(models.Model):
+    badge = models.CharField(max_length=100, default="Lieu de mémoire")
+    badge_en = models.CharField(max_length=100, blank=True, null=True)
+    badge_es = models.CharField(max_length=100, blank=True, null=True)
+    
+    title = models.CharField(max_length=255, default="Le site mémorial de Makobola")
+    title_en = models.CharField(max_length=255, blank=True, null=True)
+    title_es = models.CharField(max_length=255, blank=True, null=True)
+    
+    description = models.TextField()
+    description_en = models.TextField(blank=True, null=True)
+    description_es = models.TextField(blank=True, null=True)
+    
+    location = models.CharField(max_length=255, default="Makobola, Territoire de Fizi, Sud-Kivu, RDC")
+    location_en = models.CharField(max_length=255, blank=True, null=True)
+    location_es = models.CharField(max_length=255, blank=True, null=True)
+    
+    image = models.ImageField(upload_to='memorial/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Lieu de Mémoire"
+        verbose_name_plural = "Lieu de Mémoire"
+
+    def save(self, *args, **kwargs):
+        if not self.pk and MemorialSite.objects.exists():
+            return
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+class DonationImpact(models.Model):
+    amount = models.CharField(max_length=50, help_text="Ex: $10")
+    impact = models.CharField(max_length=255)
+    impact_en = models.CharField(max_length=255, blank=True, null=True)
+    impact_es = models.CharField(max_length=255, blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Impact de don"
+        verbose_name_plural = "Impacts de don"
+
+    def __str__(self):
+        return f"{self.amount} - {self.impact}"
+

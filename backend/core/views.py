@@ -128,6 +128,13 @@ class CommemorationSectionView(APIView):
             return Response(CommemorationSectionSerializer(section).data)
         return Response({})
 
+class MemorialSiteView(APIView):
+    def get(self, request):
+        site = MemorialSite.objects.first()
+        if site:
+            return Response(MemorialSiteSerializer(site).data)
+        return Response({})
+
 class HomeCTAActionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = HomeCTAAction.objects.all()
     serializer_class = HomeCTAActionSerializer
@@ -135,3 +142,8 @@ class HomeCTAActionViewSet(viewsets.ReadOnlyModelViewSet):
 class NavLinkViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = NavLink.objects.filter(parent=None)
     serializer_class = NavLinkSerializer
+
+class DonationImpactViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = DonationImpact.objects.all()
+    serializer_class = DonationImpactSerializer
+

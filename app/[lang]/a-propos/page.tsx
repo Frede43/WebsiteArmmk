@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Target, Eye, Heart, Shield, Scale, Handshake } from "lucide-react"
+import { Target, Eye, Heart, Shield, Scale, Handshake, Star, Users, Globe, Book, HandHeart } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import PageShell from "@/components/page-shell"
@@ -9,7 +9,7 @@ import { TeamCarousel } from "@/components/team-carousel"
 
 
 
-const iconMap: Record<string, any> = { Heart, Scale, Handshake, Shield }
+const iconMap: Record<string, any> = { Heart, Scale, Handshake, Shield, Star, Users, Globe, Book, HandHeart }
 
 export default async function AProposPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
@@ -143,7 +143,7 @@ export default async function AProposPage({ params }: { params: Promise<{ lang: 
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((v: any) => {
-              const Icon = iconMap[v.label] || Heart
+              const Icon = iconMap[v.icon_name] || iconMap[v.label] || Heart
               return (
                 <div key={v.id || v.label} className="text-center p-6 border border-border rounded-lg hover:shadow-md transition-shadow">
                   <div className="w-12 h-12 rounded-full bg-[#002D62]/10 flex items-center justify-center mx-auto mb-4">
