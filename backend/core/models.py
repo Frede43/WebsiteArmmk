@@ -52,6 +52,7 @@ class Activity(models.Model):
     
     participants = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='activities/', blank=True, null=True)
+    video_url = models.URLField(blank=True, null=True, help_text="Lien YouTube ou Vimeo (ex: https://www.youtube.com/watch?v=...)")
     achievements = models.JSONField(default=list, help_text="Liste des réalisations (format JSON)") 
 
     class Meta:
@@ -124,6 +125,17 @@ class Photo(models.Model):
         verbose_name = "Photo"
         verbose_name_plural = "Photos"
 
+class Video(models.Model):
+    album = models.ForeignKey(Album, related_name='videos', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, blank=True)
+    video_url = models.URLField(help_text="Lien YouTube ou Vimeo")
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Vidéo Galerie"
+        verbose_name_plural = "Vidéos Galerie"
+
 class Article(models.Model):
     slug = models.SlugField(unique=True)
     
@@ -137,6 +149,9 @@ class Article(models.Model):
     
     tag = models.CharField(max_length=50, help_text="Sert uniquement aux couleurs, ex: commemoration, formation")
     date = models.DateField()
+    
+    image = models.ImageField(upload_to='articles/', blank=True, null=True)
+    video_url = models.URLField(blank=True, null=True, help_text="Lien YouTube ou Vimeo (ex: https://www.youtube.com/watch?v=...)")
     
     excerpt = models.TextField(help_text="Extrait visible sur la carte")
     excerpt_en = models.TextField(blank=True, null=True)

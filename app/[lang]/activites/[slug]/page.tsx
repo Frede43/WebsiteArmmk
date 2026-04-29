@@ -9,6 +9,20 @@ import * as Icons from "lucide-react"
 import Footer from "@/components/footer"
 import PageShell from "@/components/page-shell"
 import { getActivities } from "@/lib/api"
+import { notFound } from "next/navigation"
+
+const getEmbedUrl = (url: string) => {
+  if (!url) return "";
+  if (url.includes('youtube.com') || url.includes('youtu.be')) {
+    const id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
+    return `https://www.youtube.com/embed/${id}`;
+  }
+  if (url.includes('vimeo.com')) {
+    const id = url.split('/').pop();
+    return `https://player.vimeo.com/video/${id}`;
+  }
+  return url;
+}
 
 interface Props {
   params: Promise<{ lang: string; slug: string }>
@@ -144,6 +158,24 @@ export default async function ActivityDetailPage({ params }: Props) {
               <div className="prose prose-sm max-w-none">
                 <p className="text-base text-foreground/70 leading-loose">{getField(activity, 'description')}</p>
               </div>
+
+              {/* Video Section */}
+              {activity.video_url && (
+                <div className="space-y-4 pt-6">
+                  <h2 className="font-serif text-xl font-bold text-[#002D62] flex items-center gap-2">
+                    <Icons.Video size={20} className="text-[#D32F2F]" />
+                    {lang === 'en' ? 'Video Presentation' : lang === 'es' ? 'Presentación de video' : 'Vidéo de présentation'}
+                  </h2>
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-xl bg-black">
+                    <iframe
+                      src={getEmbedUrl(activity.video_url)}
+                      className="absolute inset-0 w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
 
               {/* Achievements */}
               <div>

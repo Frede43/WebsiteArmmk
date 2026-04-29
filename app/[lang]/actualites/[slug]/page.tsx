@@ -6,6 +6,19 @@ import Footer from "@/components/footer"
 import PageShell from "@/components/page-shell"
 import { fetchAPI, getMediaUrl } from "@/lib/api"
 
+const getEmbedUrl = (url: string) => {
+  if (!url) return "";
+  if (url.includes('youtube.com') || url.includes('youtu.be')) {
+    const id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
+    return `https://www.youtube.com/embed/${id}`;
+  }
+  if (url.includes('vimeo.com')) {
+    const id = url.split('/').pop();
+    return `https://player.vimeo.com/video/${id}`;
+  }
+  return url;
+}
+
 interface Props {
   params: Promise<{ lang: string; slug: string }>
 }
@@ -132,6 +145,23 @@ export default async function ArticleDetailPage({ params }: Props) {
                 className="prose prose-lg prose-slate max-w-none prose-headings:font-serif prose-headings:text-[#002D62] prose-a:text-[#D32F2F] prose-strong:text-[#002D62]"
                 dangerouslySetInnerHTML={{ __html: getField(article, 'content') || getField(article, 'excerpt') }}
               />
+
+              {/* Video Section */}
+              {article.video_url && (
+                <div className="space-y-4 pt-6 border-t border-gray-100">
+                  <h2 className="font-serif text-2xl font-bold text-[#002D62]">
+                    {lang === 'en' ? 'Video Report' : lang === 'es' ? 'Reportaje de video' : 'Reportage vidéo'}
+                  </h2>
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-xl bg-black">
+                    <iframe
+                      src={getEmbedUrl(article.video_url)}
+                      className="absolute inset-0 w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
 
               {/* Share */}
               <div className="pt-10 border-t border-gray-100 flex items-center justify-between">

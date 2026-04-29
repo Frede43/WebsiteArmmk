@@ -19,10 +19,14 @@ class PhotoInline(admin.TabularInline):
     model = Photo
     extra = 1
 
+class VideoInline(admin.TabularInline):
+    model = Video
+    extra = 1
+
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
     list_display = ('title', 'year', 'order')
-    inlines = [PhotoInline]
+    inlines = [PhotoInline, VideoInline]
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
