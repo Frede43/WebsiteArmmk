@@ -135,16 +135,7 @@ class Video(models.Model):
         verbose_name = 'Vidéo Galerie'
         verbose_name_plural = 'Vidéos Galerie'
 
-class Video(models.Model):
-    album = models.ForeignKey(Album, related_name='videos', on_delete=models.CASCADE)
-    title = models.CharField(max_length=255, blank=True)
-    video_url = models.URLField(help_text="Lien YouTube ou Vimeo")
-    order = models.PositiveIntegerField(default=0)
 
-    class Meta:
-        ordering = ['order']
-        verbose_name = "Vidéo Galerie"
-        verbose_name_plural = "Vidéos Galerie"
 
 class Article(models.Model):
     slug = models.SlugField(unique=True)
