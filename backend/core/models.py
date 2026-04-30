@@ -136,7 +136,6 @@ class Video(models.Model):
         verbose_name_plural = 'Vidéos Galerie'
 
 
-
 class Article(models.Model):
     slug = models.SlugField(unique=True)
     
