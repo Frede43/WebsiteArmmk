@@ -1,4 +1,4 @@
-﻿from django.db import models
+from django.db import models
 
 class HeroSlide(models.Model):
     title = models.CharField(max_length=255)
@@ -330,10 +330,7 @@ class SiteConfiguration(models.Model):
         verbose_name = "Configuration du Site"
         verbose_name_plural = "Configuration du Site"
 
-    def save(self, *args, **kwargs):
-        if not self.pk and SiteConfiguration.objects.exists():
-            return
-        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return "Paramètres Généraux du Site"
@@ -587,10 +584,7 @@ class MemorialSite(models.Model):
         verbose_name = "Lieu de Mémoire"
         verbose_name_plural = "Lieu de Mémoire"
 
-    def save(self, *args, **kwargs):
-        if not self.pk and MemorialSite.objects.exists():
-            return
-        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.title

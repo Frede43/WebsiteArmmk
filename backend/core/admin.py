@@ -76,6 +76,11 @@ class PaymentMethodAdmin(admin.ModelAdmin):
 class SiteConfigurationAdmin(admin.ModelAdmin):
     list_display = ('site_name', 'contact_email')
 
+    def has_add_permission(self, request):
+        if SiteConfiguration.objects.exists():
+            return False
+        return super().has_add_permission(request)
+
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'email', 'created_at', 'is_read')
@@ -128,6 +133,11 @@ class NavLinkAdmin(admin.ModelAdmin):
 @admin.register(MemorialSite)
 class MemorialSiteAdmin(admin.ModelAdmin):
     list_display = ('title', 'location')
+
+    def has_add_permission(self, request):
+        if MemorialSite.objects.exists():
+            return False
+        return super().has_add_permission(request)
 
 @admin.register(DonationImpact)
 class DonationImpactAdmin(admin.ModelAdmin):
