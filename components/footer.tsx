@@ -85,18 +85,12 @@ export default function Footer({ lang = 'fr' }: FooterProps) {
         <div>
           <div className="flex items-center gap-4 mb-8 group">
             <div className="relative h-16 w-64 max-w-full flex items-center justify-start">
-              {config?.site_logo ? (
-                <Image 
-                  src={getMediaUrl(config.site_logo)} 
-                  alt={config?.site_name || "ARMMK"} 
-                  fill 
-                  className="object-contain object-left"
-                />
-              ) : (
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#D32F2F] to-[#a02020] flex items-center justify-center shadow-lg transition-transform duration-500 group-hover:rotate-12">
-                  <span className="text-white font-serif font-extrabold text-2xl">A</span>
-                </div>
-              )}
+              <Image 
+                src="/Armmk.png" 
+                alt="ARMMK Logo" 
+                fill 
+                className="object-contain object-left"
+              />
             </div>
           </div>
           <p className="text-white/40 text-[13px] leading-relaxed mb-8">

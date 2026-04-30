@@ -154,18 +154,13 @@ export default function Navbar({ lang, dict }: { lang: string; dict: any }) {
           {/* Logo Section */}
           <Link href={`/${lang}`} className="flex items-center gap-4 shrink-0 group mr-4">
             <div className={`relative transition-all duration-500 flex items-center ${scrolled ? 'w-32 lg:w-40 xl:w-48 h-10' : 'w-40 lg:w-48 xl:w-60 h-12 xl:h-14'}`}>
-              {config?.site_logo ? (
-                <Image 
-                  src={getMediaUrl(config.site_logo)} 
-                  alt={config?.site_name || "ARMMK"} 
-                  fill 
-                  className="object-contain object-left"
-                />
-              ) : (
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#D32F2F] to-[#801010] flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                  <span className="text-white font-serif font-extrabold text-2xl">A</span>
-                </div>
-              )}
+              <Image 
+                src="/Armmk.png" 
+                alt="ARMMK Logo" 
+                fill 
+                priority
+                className="object-contain object-left"
+              />
             </div>
           </Link>
 
