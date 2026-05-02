@@ -12,3 +12,4 @@ whitenoise==6.9.0
 deep-translator==1.11.4
 django-storages
 boto3
+django-ckeditor

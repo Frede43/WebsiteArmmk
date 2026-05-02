@@ -49,9 +49,10 @@ export default async function HomeCommemoration({ lang = 'fr' }: HomeCommemorati
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-balance leading-tight mb-5">
             {getField(data, 'title')}
           </h2>
-          <p className="text-white/75 leading-relaxed mb-6">
-            {getField(data, 'description')}
-          </p>
+          <div 
+            className="prose prose-invert prose-sm max-w-none text-white/75 leading-relaxed mb-6"
+            dangerouslySetInnerHTML={{ __html: getField(data, 'description') }}
+          />
           <div className="flex flex-col sm:flex-row gap-5 text-sm text-white/80 mb-8">
             <div className="flex items-center gap-2">
               <Calendar size={16} className="text-[#D32F2F]" />

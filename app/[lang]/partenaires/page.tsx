@@ -64,7 +64,10 @@ export default async function PartenairesPage({ params }: { params: Promise<{ la
                   </span>
                   <span className="text-xs text-muted-foreground">{p.country}</span>
                 </div>
-                <p className="text-foreground/65 text-sm leading-relaxed flex-1">{getField(p, 'description')}</p>
+                <div 
+                  className="prose prose-sm max-w-none text-foreground/65 text-sm leading-relaxed flex-1"
+                  dangerouslySetInnerHTML={{ __html: getField(p, 'description') }}
+                />
                 {p.href && p.href !== "#" && (
                   <a
                     href={p.href}

@@ -154,9 +154,10 @@ export default async function ActivityDetailPage({ params }: Props) {
               </div>
 
               {/* Description */}
-              <div className="prose prose-sm max-w-none">
-                <p className="text-base text-foreground/70 leading-loose">{getField(activity, 'description')}</p>
-              </div>
+              <div 
+                className="prose prose-sm max-w-none text-base text-foreground/70 leading-loose"
+                dangerouslySetInnerHTML={{ __html: getField(activity, 'description') }}
+              />
 
               {/* Video Section */}
               {activity.video_url && (

@@ -75,7 +75,10 @@ export default async function AProposPage({ params }: { params: Promise<{ lang: 
             </h2>
             <div className="space-y-4 text-foreground/75 leading-relaxed text-sm">
               {getField(config, 'about_history_content') ? (
-                <div dangerouslySetInnerHTML={{ __html: getField(config, 'about_history_content').replace(/\n/g, '<br/>') }} />
+                <div 
+                  className="prose prose-sm max-w-none text-foreground/75"
+                  dangerouslySetInnerHTML={{ __html: getField(config, 'about_history_content') }} 
+                />
               ) : (
                 <div className="space-y-4">
                   {lang === 'fr' ? (
@@ -118,16 +121,18 @@ export default async function AProposPage({ params }: { params: Promise<{ lang: 
           <div className="bg-[#002D62] text-white rounded-lg p-10">
             <Target size={32} className="text-[#D32F2F] mb-5" />
             <h3 className="font-serif text-2xl font-bold mb-4">{t.missionTitle}</h3>
-            <p className="text-white/75 leading-relaxed">
-              {getField(config, 'mission_text') || t.defaultMission}
-            </p>
+            <div 
+              className="prose prose-invert prose-sm max-w-none text-white/75 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: getField(config, 'mission_text') || t.defaultMission }}
+            />
           </div>
           <div className="bg-white border border-border rounded-lg p-10">
             <Eye size={32} className="text-[#D32F2F] mb-5" />
             <h3 className="font-serif text-2xl font-bold text-[#002D62] mb-4">{t.visionTitle}</h3>
-            <p className="text-foreground/70 leading-relaxed">
-              {getField(config, 'vision_text') || t.defaultVision}
-            </p>
+            <div 
+              className="prose prose-sm max-w-none text-foreground/70 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: getField(config, 'vision_text') || t.defaultVision }}
+            />
           </div>
         </div>
       </section>

@@ -93,14 +93,21 @@ export default function Footer({ lang = 'fr' }: FooterProps) {
               />
             </div>
           </div>
-          <p className="text-white/40 text-[13px] leading-relaxed mb-8">
-            {getField(config, 'about_text') || (lang === 'fr' 
-              ? "L'Association des Rescapés des Massacres de Makobola (ARMMK) est une organisation apolitique dédiée à la préservation de la mémoire et à la promotion de la réconciliation au Sud-Kivu."
-              : lang === 'en'
-              ? "The Association of Survivors of the Makobola Massacres (ARMMK) is a non-political organization dedicated to preserving memory and promoting reconciliation in South Kivu."
-              : "La Asociación de Sobrevivientes de las Masacres de Makobola (ARMMK) es una organización apolítica dedicada a preservar la memoria y promover la reconciliación en Kivu del Sur."
-            )}
-          </p>
+          {config?.about_text ? (
+            <div 
+              className="text-white/40 text-[13px] leading-relaxed mb-8 prose prose-invert prose-sm max-w-none"
+              dangerouslySetInnerHTML={{ __html: getField(config, 'about_text') }}
+            />
+          ) : (
+            <p className="text-white/40 text-[13px] leading-relaxed mb-8">
+              {lang === 'fr' 
+                ? "L'Association des Rescapés des Massacres de Makobola (ARMMK) est une organisation apolitique dédiée à la préservation de la mémoire et à la promotion de la réconciliation au Sud-Kivu."
+                : lang === 'en'
+                ? "The Association of Survivors of the Makobola Massacres (ARMMK) is a non-political organization dedicated to preserving memory and promoting reconciliation in South Kivu."
+                : "La Asociación de Sobrevivientes de las Masacres de Makobola (ARMMK) es una organización apolítica dedicada a preservar la memoria y promover la reconciliación en Kivu del Sur."
+              }
+            </p>
+          )}
           <div className="flex gap-4">
             {[
               { icon: Facebook, href: config?.facebook_url, label: "Facebook" },

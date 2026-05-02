@@ -79,7 +79,10 @@ export default async function MassacrePage({ params }: { params: Promise<{ lang:
             </h2>
             <div className="space-y-4">
               {getField(config, 'massacre_intro_content') ? (
-                <div dangerouslySetInnerHTML={{ __html: getField(config, 'massacre_intro_content').replace(/\n/g, '<br/>') }} />
+                <div 
+                  className="prose prose-sm max-w-none text-foreground/75"
+                  dangerouslySetInnerHTML={{ __html: getField(config, 'massacre_intro_content') }} 
+                />
               ) : (
                 <p>Default history content in {lang} placeholder...</p>
               )}
@@ -129,7 +132,10 @@ export default async function MassacrePage({ params }: { params: Promise<{ lang:
                   {getField(item, 'date')}
                 </span>
                 <h3 className="font-serif font-bold text-[#002D62] text-lg mb-2">{getField(item, 'title')}</h3>
-                <p className="text-foreground/70 text-sm leading-relaxed">{getField(item, 'text')}</p>
+                <div 
+                  className="prose prose-sm max-w-none text-foreground/70 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: getField(item, 'text') }}
+                />
               </li>
             ))}
           </ol>

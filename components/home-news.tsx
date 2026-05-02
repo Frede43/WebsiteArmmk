@@ -80,7 +80,10 @@ export default async function HomeNews({ lang = 'fr' }: HomeNewsProps) {
                 <h3 className="font-serif font-bold text-[#00142d] text-xl leading-tight mb-4 group-hover:text-[#D32F2F] transition-colors line-clamp-2">
                   {getField(n, 'title')}
                 </h3>
-                <p className="text-black/50 text-sm leading-relaxed mb-6 line-clamp-3">{getField(n, 'excerpt')}</p>
+                <div 
+                  className="prose prose-sm max-w-none text-black/50 leading-relaxed mb-6 line-clamp-3"
+                  dangerouslySetInnerHTML={{ __html: getField(n, 'excerpt') }}
+                />
                 <Link
                   href={`/${lang}/actualites/${n.slug}`}
                   className="mt-auto text-[10px] font-extrabold uppercase tracking-[.2em] text-[#D32F2F] hover:text-[#00142d] transition-colors flex items-center gap-1 group/btn"

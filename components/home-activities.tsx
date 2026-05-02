@@ -71,9 +71,10 @@ export default async function HomeActivities({ lang = 'fr' }: HomeActivitiesProp
                   <h3 className="font-serif font-bold text-[#002D62] text-lg mb-3 group-hover:text-[#D32F2F] transition-colors">
                     {getField(a, 'title')}
                   </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-5">
-                    {getField(a, 'description')}
-                  </p>
+                  <div 
+                    className="prose prose-sm max-w-none text-muted-foreground leading-relaxed mb-5 line-clamp-3"
+                    dangerouslySetInnerHTML={{ __html: getField(a, 'description') }}
+                  />
                   <Link
                     href={`/${lang}/activites/${a.slug}`}
                     className="text-xs font-bold uppercase tracking-wider text-[#D32F2F] hover:text-[#002D62] transition-colors inline-flex items-center gap-1"

@@ -69,7 +69,10 @@ export default async function HomeCta({ lang = 'fr' }: HomeCtaProps) {
                 </div>
                 <div>
                   <h3 className="font-serif font-bold text-white text-2xl mb-3 tracking-tight">{getField(a, 'title')}</h3>
-                  <p className="text-white/50 text-sm leading-relaxed group-hover:text-white/70 transition-colors">{getField(a, 'description')}</p>
+                  <div 
+                    className="text-white/50 text-sm leading-relaxed group-hover:text-white/70 transition-colors prose prose-invert prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: getField(a, 'description') }}
+                  />
                 </div>
                 <Link
                   href={`/${lang}${a.href}` || "#"}

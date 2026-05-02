@@ -64,9 +64,10 @@ export default function StoriesSection() {
                   <p className="font-sans text-[var(--gold)] text-xs italic mb-2">
                     &ldquo;{story.teaser}&rdquo;
                   </p>
-                  <p className="font-sans text-muted-foreground text-sm leading-relaxed line-clamp-3">
-                    {story.excerpt}
-                  </p>
+                  <div 
+                    className="font-sans text-muted-foreground text-sm leading-relaxed line-clamp-3"
+                    dangerouslySetInnerHTML={{ __html: story.excerpt }}
+                  />
                 </div>
                 <button
                   onClick={() => setSelected(story)}
@@ -135,9 +136,10 @@ export default function StoriesSection() {
 
             <div className="w-full h-0.5 bg-border mb-6" />
 
-            <div className="font-sans text-muted-foreground text-sm leading-relaxed whitespace-pre-line">
-              {selected.full}
-            </div>
+            <div 
+              className="prose prose-sm max-w-none font-sans text-muted-foreground text-sm leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: selected.full_text }}
+            />
 
             <button
               onClick={() => setSelected(null)}

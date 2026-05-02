@@ -85,9 +85,10 @@ function TemoignagesContent({ lang }: { lang: string }) {
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   <Quote size={20} className="text-[#D32F2F] mb-3 shrink-0" />
-                  <p className="text-foreground/70 text-sm leading-relaxed italic flex-1 line-clamp-4">
-                    &ldquo;{getField(t_item, 'excerpt')}&rdquo;
-                  </p>
+                  <div 
+                    className="prose prose-sm max-w-none text-foreground/70 leading-relaxed italic flex-1 line-clamp-4"
+                    dangerouslySetInnerHTML={{ __html: getField(t_item, 'excerpt') }}
+                  />
                   <button
                     onClick={() => setSelected(t_item)}
                     className="mt-5 text-xs font-bold uppercase tracking-wider text-[#002D62] hover:text-[#D32F2F] transition-colors text-left"
@@ -128,7 +129,10 @@ function TemoignagesContent({ lang }: { lang: string }) {
             </div>
             <div className="p-8">
               <Quote size={28} className="text-[#D32F2F] mb-4" />
-              <p className="text-foreground/80 leading-relaxed text-sm italic whitespace-pre-line">{getField(selected, 'full_text')}</p>
+              <div 
+                className="prose prose-sm max-w-none text-foreground/80 leading-relaxed italic"
+                dangerouslySetInnerHTML={{ __html: getField(selected, 'full_text') }}
+              />
             </div>
           </div>
         </div>

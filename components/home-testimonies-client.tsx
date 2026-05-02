@@ -37,17 +37,18 @@ export default function HomeTestimoniesClient({ testimonies, lang = 'fr' }: { te
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               <div className="absolute bottom-4 left-4">
-                <p className="text-white font-semibold text-sm">{t_item.name}</p>
-                <p className="text-white/70 text-xs">{t_item.age} {t.yearsOld}</p>
+                <p className="text-white font-semibold text-sm">{getField(t_item, 'name')}, {t_item.age} {t.yearsOld}</p>
+                <p className="text-white/65 text-xs">{getField(t_item, 'role')}</p>
               </div>
             </div>
 
             {/* Quote */}
             <div className="p-6 flex flex-col flex-1">
               <Quote size={24} className="text-[#D32F2F] mb-3 shrink-0" />
-              <p className="text-foreground/75 text-sm leading-relaxed italic flex-1">
-                &ldquo;{getField(t_item, 'excerpt')}&rdquo;
-              </p>
+              <div 
+                className="prose prose-sm max-w-none text-foreground/75 leading-relaxed italic flex-1 line-clamp-4"
+                dangerouslySetInnerHTML={{ __html: getField(t_item, 'excerpt') }}
+              />
               <button
                 onClick={() => setSelected(t_item)}
                 className="mt-5 text-xs font-bold uppercase tracking-wider text-[#002D62] hover:text-[#D32F2F] transition-colors inline-flex items-center gap-1 text-left"
@@ -79,13 +80,16 @@ export default function HomeTestimoniesClient({ testimonies, lang = 'fr' }: { te
                 <X size={18} />
               </button>
               <div className="absolute bottom-4 left-5">
-                <p className="text-white font-serif text-xl font-bold">{selected.name}</p>
+                <p className="text-white font-serif text-xl font-bold">{getField(selected, 'name')}</p>
                 <p className="text-white/70 text-xs">{selected.age} {t.yearsOld} · {getField(selected, 'role')}</p>
               </div>
             </div>
             <div className="p-8">
               <Quote size={28} className="text-[#D32F2F] mb-4" />
-              <p className="text-foreground/80 leading-relaxed text-sm italic">{getField(selected, 'full_text')}</p>
+              <div 
+                className="prose prose-sm max-w-none text-foreground/80 leading-relaxed italic"
+                dangerouslySetInnerHTML={{ __html: getField(selected, 'full_text') }}
+              />
             </div>
           </div>
         </div>

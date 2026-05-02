@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'storages',
     'corsheaders',
     'rest_framework',
+    'ckeditor',
+    'ckeditor_uploader',
     'core',
 ]
 
@@ -164,3 +166,24 @@ CORS_ALLOW_ALL_ORIGINS = True # Permettre au app Next.js de se connecter en dev
 SESSION_COOKIE_AGE = 3600  # 1 hour in seconds
 SESSION_SAVE_EVERY_REQUEST = True  # Reset timeout on every request
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire when browser is closed
+
+# CKEditor Configuration
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak'],
+            ['Styles', 'Format', 'Font', 'FontSize'],
+            ['TextColor', 'BGColor'],
+            ['Maximize', 'ShowBlocks'],
+            ['Source'],
+        ],
+        'height': 300,
+        'width': '100%',
+        'removePlugins': 'exportpdf',
+    },
+}

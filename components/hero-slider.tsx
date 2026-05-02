@@ -86,9 +86,10 @@ export default function HeroSlider({ slides = [], lang = 'fr' }: HeroSliderProps
         <h1 className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white max-w-5xl text-balance leading-[1.1] tracking-tight">
           {getField(slide, 'title')}
         </h1>
-        <p className="mt-6 text-white/80 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed text-balance font-medium px-4 sm:px-0">
-          {getField(slide, 'subtitle')}
-        </p>
+        <div 
+          className="mt-6 text-white/80 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed text-balance font-medium px-4 sm:px-0"
+          dangerouslySetInnerHTML={{ __html: getField(slide, 'subtitle') }}
+        />
         <div className="mt-10 flex flex-col sm:flex-row gap-4 sm:gap-5 w-full sm:w-auto px-10 sm:px-0">
           <Link
             href={`/${lang}/a-propos`}
