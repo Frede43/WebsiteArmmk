@@ -123,7 +123,10 @@ function SoutenirContent({ lang }: { lang: string }) {
                     <Icon size={22} className="text-white" />
                   </div>
                   <h3 className="font-serif font-bold text-[#002D62] text-base mb-2">{getField(s, 'title')}</h3>
-                  <p className="text-muted-foreground text-xs leading-relaxed">{getField(s, 'description')}</p>
+                  <div 
+                    className="text-muted-foreground text-xs leading-relaxed prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: getField(s, 'description') }}
+                  />
                 </div>
               )
             })}

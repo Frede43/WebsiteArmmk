@@ -155,7 +155,10 @@ export default async function AProposPage({ params }: { params: Promise<{ lang: 
                     <Icon size={22} className="text-[#002D62]" />
                   </div>
                   <h4 className="font-serif font-bold text-[#002D62] text-base mb-2">{getField(v, 'label')}</h4>
-                  <p className="text-muted-foreground text-xs leading-relaxed">{getField(v, 'desc')}</p>
+                  <div 
+                    className="text-muted-foreground text-xs leading-relaxed prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: getField(v, 'desc') }}
+                  />
                 </div>
               )
             })}

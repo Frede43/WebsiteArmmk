@@ -67,9 +67,10 @@ export default function PageShell({ title, subtitle, image, breadcrumbs = [], la
             {title}
           </h1>
           {subtitle && (
-            <p className="mt-6 text-white/70 text-lg sm:text-xl max-w-2xl leading-relaxed font-medium">
-              {subtitle}
-            </p>
+            <div 
+              className="mt-6 text-white/70 text-lg sm:text-xl max-w-2xl leading-relaxed font-medium prose prose-invert prose-sm"
+              dangerouslySetInnerHTML={{ __html: subtitle }}
+            />
           )}
           <div className="mt-10 flex items-center gap-4">
             <div className="h-1 w-20 bg-[#D32F2F] rounded-full animate-reveal origin-left" />

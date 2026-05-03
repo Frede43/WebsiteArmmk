@@ -159,9 +159,10 @@ function DocumentsContent({ lang }: { lang: string }) {
                   <h3 className="font-serif text-sm font-bold text-[#002D62] leading-snug mb-2 flex-1">
                     {getField(doc, 'title')}
                   </h3>
-                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-4">
-                    {getField(doc, 'description')}
-                  </p>
+                  <div 
+                    className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-4 prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: getField(doc, 'description') }}
+                  />
                   <a
                     href={doc.downloadUrl}
                     className="inline-flex items-center justify-center gap-2 bg-[#002D62] hover:bg-[#001a3d] text-white text-[11px] font-semibold uppercase tracking-wider px-4 py-2.5 rounded transition-colors w-full"
@@ -302,9 +303,10 @@ function DocumentsContent({ lang }: { lang: string }) {
                         <h3 className="font-serif text-sm font-bold text-[#002D62] leading-snug mb-1.5 group-hover:text-[#D32F2F] transition-colors">
                           {getField(doc, 'title')}
                         </h3>
-                        <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-3">
-                          {getField(doc, 'description')}
-                        </p>
+                        <div 
+                          className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-3 prose prose-sm max-w-none"
+                          dangerouslySetInnerHTML={{ __html: getField(doc, 'description') }}
+                        />
                         <div className="flex flex-wrap gap-4 text-xs text-gray-400">
                           <span className="flex items-center gap-1.5">
                             <Calendar size={11} className="text-[#D32F2F]" />
