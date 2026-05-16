@@ -5,6 +5,7 @@ import HomeCommemoration from "@/components/home-commemoration"
 import HomeTestimonies from "@/components/home-testimonies"
 import HomeNews from "@/components/home-news"
 import HomeCta from "@/components/home-cta"
+import PartnersSlider from "@/components/partners-slider"
 import Footer from "@/components/footer"
 import { getHeroSlides } from "@/lib/api"
 import { getDictionary } from "@/lib/get-dictionary"
@@ -24,6 +25,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <HomeTestimonies lang={lang} />
       <HomeNews lang={lang} />
       <HomeCta lang={lang} />
+      <PartnersSlider lang={lang} />
       <Footer lang={lang} />
     </main>
   )
