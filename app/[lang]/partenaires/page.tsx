@@ -6,7 +6,13 @@ import { fetchAPI } from "@/lib/api"
 
 export default async function PartenairesPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
-  const partners = await fetchAPI('/partners/') || [];
+  const activeLang = lang as 'fr' | 'en' | 'es'
+  
+  // Fetch data from API
+  const [partners, stats] = await Promise.all([
+    fetchAPI('/partners/') || [],
+    fetchAPI('/stats/') || []
+  ]);
 
   const getField = (obj: any, field: string) => {
     if (!obj) return ""
@@ -49,7 +55,6 @@ export default async function PartenairesPage({ params }: { params: Promise<{ la
 
       {/* Partenaires Section */}
       <section className="py-24 bg-white relative overflow-hidden">
-        {/* Subtle background decoration */}
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-[#F8F6F2] rounded-bl-full -z-10 opacity-50" />
         
         <div className="max-w-7xl mx-auto px-6">
@@ -72,7 +77,6 @@ export default async function PartenairesPage({ params }: { params: Promise<{ la
                   key={p.id}
                   className="group relative bg-white rounded-2xl border border-gray-100 p-8 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,45,98,0.1)] hover:-translate-y-2 overflow-hidden"
                 >
-                  {/* Decorative corner */}
                   <div className="absolute top-0 right-0 w-24 h-24 bg-[#002D62]/[0.02] rounded-bl-full transition-all duration-500 group-hover:bg-[#D32F2F]/5" />
                   
                   <div className="relative z-10">
@@ -109,7 +113,9 @@ export default async function PartenairesPage({ params }: { params: Promise<{ la
               ))}
             </div>
           ) : (
-            <p className="text-gray-400 italic font-serif">En attente de nouveaux partenaires institutionnels...</p>
+            <div className="py-20 text-center border-2 border-dashed border-gray-100 rounded-3xl">
+               <p className="text-gray-400 italic font-serif">En attente de nouveaux partenaires institutionnels...</p>
+            </div>
           )}
         </div>
       </section>
@@ -157,28 +163,35 @@ export default async function PartenairesPage({ params }: { params: Promise<{ la
               ))}
             </div>
           ) : (
-            <p className="text-gray-400 italic font-serif">Aucun collaborateur opérationnel répertorié.</p>
+            <div className="py-12 text-center bg-white/50 rounded-xl border border-gray-200 border-dashed">
+               <p className="text-gray-400 italic font-serif">Aucun collaborateur opérationnel répertorié.</p>
+            </div>
           )}
         </div>
       </section>
 
-      {/* Stats Banner / Social Proof */}
-      <section className="py-12 bg-[#002D62] border-y border-white/5">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-wrap justify-around gap-8 text-center">
-            {[
-              { label: lang === 'en' ? 'Partner Countries' : 'Pays Partenaires', val: '12+' },
-              { label: lang === 'en' ? 'Active Alliances' : 'Alliances Actives', val: '25+' },
-              { label: lang === 'en' ? 'Years of Trust' : 'Années de Confiance', val: '15' },
-            ].map((s, i) => (
-              <div key={i} className="space-y-1">
-                <div className="text-3xl font-bold text-white font-serif">{s.val}</div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-white/50">{s.label}</div>
-              </div>
-            ))}
+      {/* Stats Banner / Dynamic Stats */}
+      {stats.length > 0 && (
+        <section className="py-16 bg-[#002D62] border-y border-white/5 relative overflow-hidden">
+          {/* Subtle light effect */}
+          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-64 h-64 bg-blue-500/10 blur-[100px] pointer-events-none" />
+          
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="flex flex-wrap justify-around gap-12 text-center">
+              {stats.map((s: any, i: number) => (
+                <div key={s.id || i} className="space-y-2 group">
+                  <div className="text-4xl md:text-5xl font-bold text-white font-serif transition-transform duration-500 group-hover:scale-110 group-hover:text-blue-200">
+                    {s.value}
+                  </div>
+                  <div className="text-[11px] uppercase tracking-[0.25em] text-white/60 font-bold max-w-[150px] mx-auto leading-tight">
+                    {getField(s, 'label')}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CTA Section */}
       <section className="py-24 bg-white relative overflow-hidden">
