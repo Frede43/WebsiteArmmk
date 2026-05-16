@@ -43,7 +43,16 @@ export default async function HomeTestimonies({ lang = 'fr' }: HomeTestimoniesPr
           </p>
         </div>
 
-        <HomeTestimoniesClient testimonies={testimonies} lang={lang} />
+        {testimonies.length > 0 ? (
+          <HomeTestimoniesClient testimonies={testimonies} lang={lang} />
+        ) : (
+          <div className="py-16 text-center bg-gray-50 rounded-2xl border border-gray-100">
+             <Quote size={40} className="text-gray-200 mx-auto mb-4" />
+             <p className="text-gray-400 font-serif italic text-lg">
+               {lang === 'en' ? 'Survivor stories are being collected...' : lang === 'es' ? 'Se están recopilando historias de sobrevivientes...' : 'Les récits de rescapés sont en cours de recueil...'}
+             </p>
+          </div>
+        )}
 
         <div className="text-center mt-12">
           <Link

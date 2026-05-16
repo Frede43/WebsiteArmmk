@@ -73,37 +73,45 @@ export default async function ActualitesPage({ params }: { params: Promise<{ lan
           </div>
 
           {/* Articles */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((a: any) => (
-              <article
-                key={a.slug || a.id}
-                className="bg-[#F8F6F2] rounded-lg border border-border overflow-hidden group hover:shadow-md transition-shadow flex flex-col"
-              >
-                <div className="p-6 flex flex-col flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className={`text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded flex items-center gap-1 ${tagColors[a.tag] ?? "bg-gray-100 text-gray-600"}`}>
-                      <Tag size={10} />
-                      {getField(a, 'category')}
-                    </span>
-                    <span className="flex items-center gap-1 text-muted-foreground text-xs">
-                      <Calendar size={11} />
-                      {a.date}
-                    </span>
+          {articles.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {articles.map((a: any) => (
+                <article
+                  key={a.slug || a.id}
+                  className="bg-[#F8F6F2] rounded-lg border border-border overflow-hidden group hover:shadow-md transition-shadow flex flex-col"
+                >
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className={`text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded flex items-center gap-1 ${tagColors[a.tag] ?? "bg-gray-100 text-gray-600"}`}>
+                        <Tag size={10} />
+                        {getField(a, 'category')}
+                      </span>
+                      <span className="flex items-center gap-1 text-muted-foreground text-xs">
+                        <Calendar size={11} />
+                        {a.date}
+                      </span>
+                    </div>
+                    <h2 className="font-serif font-bold text-[#002D62] text-lg leading-snug mb-3 group-hover:text-[#D32F2F] transition-colors flex-1">
+                      {getField(a, 'title')}
+                    </h2>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-5 line-clamp-3">{getField(a, 'excerpt')}</p>
+                    <Link
+                      href={`/${lang}/actualites/${a.slug}`}
+                      className="text-xs font-bold uppercase tracking-wider text-[#D32F2F] hover:text-[#002D62] transition-colors"
+                    >
+                      {t.readMore} &rarr;
+                    </Link>
                   </div>
-                  <h2 className="font-serif font-bold text-[#002D62] text-lg leading-snug mb-3 group-hover:text-[#D32F2F] transition-colors flex-1">
-                    {getField(a, 'title')}
-                  </h2>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-5 line-clamp-3">{getField(a, 'excerpt')}</p>
-                  <Link
-                    href={`/${lang}/actualites/${a.slug}`}
-                    className="text-xs font-bold uppercase tracking-wider text-[#D32F2F] hover:text-[#002D62] transition-colors"
-                  >
-                    {t.readMore} &rarr;
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="py-20 text-center border-2 border-dashed border-gray-100 rounded-3xl">
+               <p className="text-gray-400 italic font-serif text-lg">
+                 {lang === 'en' ? 'No articles match your criteria for now.' : lang === 'es' ? 'No hay artículos que coincidan con sus criterios por ahora.' : 'Aucun article ne correspond à vos critères pour le moment.'}
+               </p>
+            </div>
+          )}
         </div>
       </section>
 

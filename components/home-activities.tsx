@@ -56,36 +56,44 @@ export default async function HomeActivities({ lang = 'fr' }: HomeActivitiesProp
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {activities.map((a: any) => {
-            const Icon = iconMap[a.title] || MessageCircle
-            return (
-              <div
-                key={a.id || a.title}
-                className="bg-white rounded-lg border border-border overflow-hidden group hover:shadow-lg transition-shadow"
-              >
-                <div className={`${a.color} p-5 flex items-center justify-center`}>
-                  <Icon size={32} className="text-white" />
+        {activities.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {activities.map((a: any) => {
+              const Icon = iconMap[a.title] || MessageCircle
+              return (
+                <div
+                  key={a.id || a.title}
+                  className="bg-white rounded-lg border border-border overflow-hidden group hover:shadow-lg transition-shadow"
+                >
+                  <div className={`${a.color} p-5 flex items-center justify-center`}>
+                    <Icon size={32} className="text-white" />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-serif font-bold text-[#002D62] text-lg mb-3 group-hover:text-[#D32F2F] transition-colors">
+                      {getField(a, 'title')}
+                    </h3>
+                    <div 
+                      className="prose prose-sm max-w-none text-muted-foreground leading-relaxed mb-5 line-clamp-3"
+                      dangerouslySetInnerHTML={{ __html: getField(a, 'description') }}
+                    />
+                    <Link
+                      href={`/${lang}/activites/${a.slug}`}
+                      className="text-xs font-bold uppercase tracking-wider text-[#D32F2F] hover:text-[#002D62] transition-colors inline-flex items-center gap-1"
+                    >
+                      {t.learnMore} &rarr;
+                    </Link>
+                  </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="font-serif font-bold text-[#002D62] text-lg mb-3 group-hover:text-[#D32F2F] transition-colors">
-                    {getField(a, 'title')}
-                  </h3>
-                  <div 
-                    className="prose prose-sm max-w-none text-muted-foreground leading-relaxed mb-5 line-clamp-3"
-                    dangerouslySetInnerHTML={{ __html: getField(a, 'description') }}
-                  />
-                  <Link
-                    href={`/${lang}/activites/${a.slug}`}
-                    className="text-xs font-bold uppercase tracking-wider text-[#D32F2F] hover:text-[#002D62] transition-colors inline-flex items-center gap-1"
-                  >
-                    {t.learnMore} &rarr;
-                  </Link>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="py-20 text-center bg-white/40 rounded-3xl border-2 border-dashed border-gray-200">
+            <p className="text-gray-400 font-serif italic text-lg">
+              {lang === 'en' ? 'Our activities are being updated...' : lang === 'es' ? 'Nuestras actividades se están actualizando...' : 'Nos activités sont en cours de mise à jour...'}
+            </p>
+          </div>
+        )}
 
         <div className="text-center mt-10">
           <Link

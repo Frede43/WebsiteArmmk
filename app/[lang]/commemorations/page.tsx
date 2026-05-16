@@ -97,19 +97,25 @@ export default async function CommemorationsPage({ params }: { params: Promise<{
               <Clock size={20} className="text-[#D32F2F]" />
               {t.programTitle}
             </h3>
-            <ol className="space-y-4">
-              {programme.map((p: any, i: number) => (
-                <li key={p.id || i} className="flex gap-4 items-start">
-                  <span className="shrink-0 w-6 h-6 rounded-full bg-[#D32F2F] text-white text-xs flex items-center justify-center font-bold">
-                    {i + 1}
-                  </span>
-                  <div>
-                    <p className="text-xs font-bold text-[#D32F2F] uppercase tracking-wider">{getField(p, 'time')}</p>
-                    <p className="text-sm text-foreground/75 mt-0.5">{getField(p, 'event')}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+            {programme.length > 0 ? (
+              <ol className="space-y-4">
+                {programme.map((p: any, i: number) => (
+                  <li key={p.id || i} className="flex gap-4 items-start">
+                    <span className="shrink-0 w-6 h-6 rounded-full bg-[#D32F2F] text-white text-xs flex items-center justify-center font-bold">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold text-[#D32F2F] uppercase tracking-wider">{getField(p, 'time')}</p>
+                      <p className="text-sm text-foreground/75 mt-0.5">{getField(p, 'event')}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="text-gray-400 italic text-sm py-4">
+                {lang === 'en' ? 'Program details being finalized...' : lang === 'es' ? 'Detalles del programa en finalización...' : 'Détails du programme en cours de finalisation...'}
+              </p>
+            )}
           </div>
         </div>
       </section>

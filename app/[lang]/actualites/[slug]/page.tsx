@@ -1,6 +1,5 @@
 import Image from "next/image"
 import Link from "next/link"
-import { notFound } from "next/navigation"
 import { Calendar, Tag, ArrowLeft, Clock, Share2, Facebook, Twitter, Link2 } from "lucide-react"
 import Footer from "@/components/footer"
 import PageShell from "@/components/page-shell"
@@ -60,7 +59,6 @@ export default async function ArticleDetailPage({ params }: Props) {
   const { lang, slug } = await params
   const articles = await fetchAPI('/articles/') || []
   const article = articles.find((a: any) => a.slug === slug)
-  if (!article) notFound()
 
   const getField = (obj: any, field: string) => {
     if (!obj) return ""
@@ -68,8 +66,6 @@ export default async function ArticleDetailPage({ params }: Props) {
     const translated = obj[`${field}_${lang}`]
     return translated || obj[field]
   }
-
-  const otherArticles = articles.filter((a: any) => a.slug !== slug).slice(0, 3)
 
   const t = {
     news: lang === 'en' ? 'News' : lang === 'es' ? 'Noticias' : 'Actualités',
@@ -79,6 +75,46 @@ export default async function ArticleDetailPage({ params }: Props) {
     recentPosts: lang === 'en' ? 'Recent posts' : lang === 'es' ? 'Artículos recientes' : 'Articles récents',
     allNews: lang === 'en' ? 'View all news' : lang === 'es' ? 'Ver todas les noticias' : 'Voir toutes les actualités',
   }
+
+  if (!article) {
+    return (
+      <>
+        <PageShell
+          title={t.news}
+          subtitle="..."
+          image="/images/activities-dialogue.jpg"
+          lang={lang}
+        />
+        <section className="py-24 bg-white text-center">
+          <div className="max-w-2xl mx-auto px-6">
+            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-8 border border-gray-100">
+               <Clock size={40} className="text-gray-200" />
+            </div>
+            <h1 className="font-serif text-3xl font-bold text-[#002D62] mb-4">
+              {lang === 'en' ? 'Article under preparation' : lang === 'es' ? 'Artículo en preparación' : 'Article en cours de rédaction'}
+            </h1>
+            <p className="text-gray-500 mb-10 italic">
+              {lang === 'en' 
+                ? 'This article is being written or has been moved. Please return to the main news page.' 
+                : lang === 'es' 
+                ? 'Este artículo se está escribiendo o ha sido movido. Por favor, vuelva a la página principal de noticias.' 
+                : 'Cet article est en cours de rédaction ou a été déplacé. Veuillez revenir à la page principale des actualités.'}
+            </p>
+            <Link
+              href={`/${lang}/actualites`}
+              className="inline-flex items-center gap-2 bg-[#002D62] text-white px-8 py-3 rounded-full font-bold transition-all"
+            >
+              <ArrowLeft size={18} />
+              {t.back}
+            </Link>
+          </div>
+        </section>
+        <Footer lang={lang} />
+      </>
+    )
+  }
+
+  const otherArticles = articles.filter((a: any) => a.slug !== slug).slice(0, 3)
 
   return (
     <>
@@ -90,6 +126,7 @@ export default async function ArticleDetailPage({ params }: Props) {
           { label: t.news, href: `/${lang}/actualites` },
           { label: getField(article, 'title') },
         ]}
+        lang={lang}
       />
 
       <section className="py-16 bg-white">

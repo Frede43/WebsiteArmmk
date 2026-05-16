@@ -1,6 +1,5 @@
 import Image from "next/image"
 import Link from "next/link"
-import { notFound } from "next/navigation"
 import {
   CheckCircle2, Calendar, MapPin, Users, ArrowLeft,
   ChevronRight, ArrowRight, Clock,
@@ -64,7 +63,6 @@ export default async function ActivityDetailPage({ params }: Props) {
   const { lang, slug } = await params
   const activities = await getActivities()
   const activity = activities.find((a: any) => a.slug === slug)
-  if (!activity) notFound()
 
   const getField = (obj: any, field: string) => {
     if (!obj) return ""
@@ -73,24 +71,62 @@ export default async function ActivityDetailPage({ params }: Props) {
     return translated || obj[field]
   }
 
-  const Icon = (Icons as any)[activity.icon] || Icons.Circle
-  const others = activities.filter((a: any) => a.slug !== slug)
-
   const t = {
     allActivities: lang === 'en' ? 'Our Activities' : lang === 'es' ? 'Nuestras Actividades' : 'Nos Activités',
-    back: lang === 'en' ? 'Back to activities' : lang === 'es' ? 'Volver a actividades' : 'Retour aux activités',
+    back: lang === 'en' ? 'Back to activities' : lang === 'es' ? 'Volver a activités' : 'Retour aux activités',
     achievements: lang === 'en' ? 'Our achievements' : lang === 'es' ? 'Nuestros logros' : 'Nos réalisations',
-    supportActivity: lang === 'en' ? 'Support this activity' : lang === 'es' ? 'Apoyar esta actividad' : 'Soutenir cette activité',
+    supportActivity: lang === 'en' ? 'Support this activity' : lang === 'es' ? 'Apoyar esta activité' : 'Soutenir cette activité',
     becomeVolunteer: lang === 'en' ? 'Become a volunteer' : lang === 'es' ? 'Hacerse voluntario' : 'Devenir volontaire',
     nextEvent: lang === 'en' ? 'Next event' : lang === 'es' ? 'Próximo evento' : 'Prochain événement',
-    viewAllEvents: lang === 'en' ? 'See all events' : lang === 'es' ? 'Ver todos los eventos' : 'Voir tous les événements',
+    viewAllEvents: lang === 'en' ? 'See all events' : lang === 'es' ? 'Ver todos les événements' : 'Voir tous les événements',
     upcoming: lang === 'en' ? 'Upcoming' : lang === 'es' ? 'Próximamente' : 'À venir',
-    viewCalendar: lang === 'en' ? 'See calendar' : lang === 'es' ? 'Ver el calendario' : 'Voir le calendrier',
-    otherActivities: lang === 'en' ? 'Other activities' : lang === 'es' ? 'Otras actividades' : 'Autres activités',
+    viewCalendar: lang === 'en' ? 'See calendar' : lang === 'es' ? 'Ver el calendrier' : 'Voir le calendrier',
+    otherActivities: lang === 'en' ? 'Other activities' : lang === 'es' ? 'Otras activités' : 'Autres activités',
     dateLabel: lang === 'en' ? 'Date' : lang === 'es' ? 'Fecha' : 'Date',
     locationLabel: lang === 'en' ? 'Location' : lang === 'es' ? 'Lugar' : 'Lieu',
     participantsLabel: lang === 'en' ? 'Participants' : lang === 'es' ? 'Participantes' : 'Participants',
   }
+
+  if (!activity) {
+    return (
+      <>
+        <PageShell
+          title={t.allActivities}
+          subtitle="..."
+          image="/images/activities-dialogue.jpg"
+          lang={lang}
+        />
+        <section className="py-24 bg-white text-center">
+          <div className="max-w-2xl mx-auto px-6">
+            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-8 border border-gray-100">
+               <Icons.FileText size={40} className="text-gray-200" />
+            </div>
+            <h1 className="font-serif text-3xl font-bold text-[#002D62] mb-4">
+              {lang === 'en' ? 'Activity under preparation' : lang === 'es' ? 'Actividad en preparación' : 'Activité en cours de préparation'}
+            </h1>
+            <p className="text-gray-500 mb-10 italic">
+              {lang === 'en' 
+                ? 'The detailed content for this activity is being finalized by our team. Please come back soon.' 
+                : lang === 'es' 
+                ? 'El contenido detallado de esta actividad está siendo finalizado par nuestro equipo. Por favor, vuelva pronto.' 
+                : 'Le contenu détaillé de cette activité est en cours de finalisation par notre équipe. Veuillez revenir prochainement.'}
+            </p>
+            <Link
+              href={`/${lang}/activites`}
+              className="inline-flex items-center gap-2 bg-[#002D62] text-white px-8 py-3 rounded-full font-bold transition-all"
+            >
+              <Icons.ArrowLeft size={18} />
+              {t.back}
+            </Link>
+          </div>
+        </section>
+        <Footer lang={lang} />
+      </>
+    )
+  }
+
+  const Icon = (Icons as any)[activity.icon] || Icons.Circle
+  const others = activities.filter((a: any) => a.slug !== slug)
 
   return (
     <>
@@ -102,6 +138,7 @@ export default async function ActivityDetailPage({ params }: Props) {
           { label: t.allActivities, href: `/${lang}/activites` },
           { label: getField(activity, 'title') },
         ]}
+        lang={lang}
       />
 
       <section className="py-16 bg-white">
