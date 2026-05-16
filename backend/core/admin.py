@@ -111,7 +111,10 @@ class TimelineEventAdmin(admin.ModelAdmin):
 
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'country', 'order')
+    list_display = ('name', 'category', 'type', 'country', 'order')
+    list_filter = ('category', 'country')
+    search_fields = ('name',)
+    actions = [make_translate_action(['type', 'country', 'description'])]
 
 @admin.register(Statistic)
 class StatisticAdmin(admin.ModelAdmin):

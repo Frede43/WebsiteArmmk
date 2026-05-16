@@ -469,6 +469,7 @@ class Partner(models.Model):
     description = RichTextUploadingField()
     description_en = RichTextUploadingField(blank=True, null=True)
     description_es = RichTextUploadingField(blank=True, null=True)
+    image = models.ImageField(upload_to='partners/', blank=True, null=True, verbose_name="Logo/Image")
     href = models.URLField(blank=True, default="#")
     order = models.PositiveIntegerField(default=0)
     class Meta:

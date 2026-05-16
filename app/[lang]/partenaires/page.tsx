@@ -2,7 +2,7 @@ import Link from "next/link"
 import { ExternalLink, Globe, Handshake, Shield, Users } from "lucide-react"
 import Footer from "@/components/footer"
 import PageShell from "@/components/page-shell"
-import { fetchAPI } from "@/lib/api"
+import { fetchAPI, getMediaUrl } from "@/lib/api"
 
 export default async function PartenairesPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
@@ -80,8 +80,18 @@ export default async function PartenairesPage({ params }: { params: Promise<{ la
                   <div className="absolute top-0 right-0 w-24 h-24 bg-[#002D62]/[0.02] rounded-bl-full transition-all duration-500 group-hover:bg-[#D32F2F]/5" />
                   
                   <div className="relative z-10">
-                    <div className="w-14 h-14 rounded-xl bg-[#002D62] flex items-center justify-center mb-8 shadow-lg shadow-[#002D62]/20 transition-transform duration-500 group-hover:rotate-[10deg]">
-                      <Shield size={26} className="text-white" />
+                    <div className="w-20 h-20 rounded-2xl bg-white border border-gray-100 flex items-center justify-center mb-8 shadow-sm transition-transform duration-500 group-hover:scale-110 overflow-hidden">
+                      {p.image ? (
+                        <img 
+                          src={getMediaUrl(p.image)} 
+                          alt={p.name} 
+                          className="w-full h-full object-contain p-2"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-[#002D62] flex items-center justify-center">
+                          <Shield size={26} className="text-white" />
+                        </div>
+                      )}
                     </div>
                     <h3 className="font-serif font-bold text-[#002D62] text-2xl mb-2 transition-colors duration-300 group-hover:text-[#D32F2F]">
                       {p.name}
@@ -141,8 +151,16 @@ export default async function PartenairesPage({ params }: { params: Promise<{ la
                   key={p.id} 
                   className="flex flex-col sm:flex-row items-center gap-6 bg-white rounded-xl p-6 border border-white transition-all duration-300 hover:shadow-xl group"
                 >
-                  <div className="w-20 h-20 shrink-0 rounded-full bg-[#F8F6F2] flex items-center justify-center border border-gray-100 transition-colors duration-500 group-hover:bg-[#002D62]/5">
-                    <Handshake size={30} className="text-[#002D62]/40 group-hover:text-[#D32F2F] transition-colors" />
+                  <div className="w-20 h-20 shrink-0 rounded-full bg-[#F8F6F2] flex items-center justify-center border border-gray-100 transition-colors duration-500 group-hover:bg-white overflow-hidden shadow-inner">
+                    {p.image ? (
+                       <img 
+                       src={getMediaUrl(p.image)} 
+                       alt={p.name} 
+                       className="w-full h-full object-contain p-2"
+                     />
+                    ) : (
+                      <Handshake size={30} className="text-[#002D62]/40 group-hover:text-[#D32F2F] transition-colors" />
+                    )}
                   </div>
                   <div className="flex-1 text-center sm:text-left">
                     <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-2">
@@ -170,12 +188,10 @@ export default async function PartenairesPage({ params }: { params: Promise<{ la
         </div>
       </section>
 
-      {/* Stats Banner / Dynamic Stats */}
+      {/* Dynamic Stats Banner */}
       {stats.length > 0 && (
         <section className="py-16 bg-[#002D62] border-y border-white/5 relative overflow-hidden">
-          {/* Subtle light effect */}
           <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-64 h-64 bg-blue-500/10 blur-[100px] pointer-events-none" />
-          
           <div className="max-w-7xl mx-auto px-6 relative z-10">
             <div className="flex flex-wrap justify-around gap-12 text-center">
               {stats.map((s: any, i: number) => (
